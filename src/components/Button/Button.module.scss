@@ -1,0 +1,105 @@
+:root {
+  --border-radius: 4px;
+  --padding-small: 8px 16px;
+  --padding-large: 12px 24px;
+}
+
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  min-width: 100px;
+  padding: var(--padding-small);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border: 2px solid transparent;
+  user-select: none;
+  transition: all 0.3s ease;
+  margin-top: 5px;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+}
+
+.rounded {
+  border-radius: 999px;
+}
+
+.primary {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.nav {
+  height: 100%;
+  &:hover {
+    background-color: var(--primary);
+    border-radius: 0%;
+  }
+}
+
+.no-bg {
+  background-color: transparent;
+}
+
+.secondary {
+  background: var(--secondary);
+  color: var(--white);
+}
+
+.primary, .secondary {
+  padding: var(--padding-small); /* Hoặc var(--padding-large) nếu bạn muốn lớn hơn */
+}
+
+
+.outline {
+  background-color: var(--white);
+  color: var(--black);
+  border-color: var(--primary);
+  &:hover {
+    background-color: var(--primary);
+    color: var(--white);
+  }
+}
+
+.disable {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.small {
+  padding: var(--padding-small);
+}
+
+.large {
+  padding: var(--padding-large);
+}
+
+.icon {
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.noHoverAnimation {
+  transition: none;
+  font-size: larger;
+  &:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+.scaleHoverAnimation {
+  font-size: 1rem;
+  &:hover{
+    transform: scale(1.5);
+    box-shadow: none;
+  }  
+}

@@ -1,0 +1,46 @@
+
+.question-card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 0; /* Loại bỏ padding ban đầu */
+  margin: 0px 20px 20px;
+  min-width: 80vw; 
+  min-height: 40vh;
+  max-width: 100%; /* Giới hạn kích thước tối đa để tránh tràn ra ngoài */
+  overflow: hidden; /* Đảm bảo các thành phần không bị tràn ra ngoài */
+}
+
+.question-title {
+  font-size: 1.5rem;
+  text-align: center;
+  font-weight: bold;
+  color: #333;
+  user-select: none;
+  background-color: #BC7FCD;
+  padding: 20px 0 10px; /* Thêm padding bên trong tiêu đề */
+  margin-bottom: 20px; /* Khoảng cách phía dưới tiêu đề */
+  box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước của phần tử */
+}
+
+.answers-container {
+  display: grid;
+  gap: 10px;
+  width: 100%; /* Đảm bảo container chiếm toàn bộ chiều ngang */
+  padding: 0px 20px 20px; /* Thêm padding cho khoảng cách giữa các đáp án và cạnh ngoài */
+  grid-template-columns: repeat(2, 1fr);
+  box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước của phần tử */
+
+  @media (min-width: 768px) {
+    &.two-answers {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    &.three-answers {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}

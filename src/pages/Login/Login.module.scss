@@ -1,0 +1,81 @@
+.wrapper {  
+  min-width: 80%;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  margin-top: 2vh;
+  padding: 2vh 1vw;
+  background-color: var(--white);
+}
+
+.tittle {
+  margin-bottom: 10px;
+}
+
+.close-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px; 
+}
+
+.left, .right {
+  flex: 1;
+  padding: 50px;
+}
+
+.left {
+  display: flex;              
+  flex-direction: column;     
+  justify-content: center;    
+  align-items: center;       
+  margin-right: 20px;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.action-btn {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.login-btn , .register-btn{
+  margin: 30px 15px;
+  width: 150px !important;
+}
+
+.forgot-password {
+  color: var(--primary);
+  margin: 20px 65px 10px 0px;
+  align-self: flex-end; 
+  &:hover {
+    font-style: italic;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .left, .right {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .right {
+    align-items: center;
+  }
+}
+

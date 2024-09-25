@@ -1,0 +1,10 @@
+.star-rating {
+  display: flex;
+  transform: translateY(4px);
+}
+
+.star {
+  color: gold;
+  margin-right: 4px;
+  filter: drop-shadow(1px 1px 2px gray);
+}

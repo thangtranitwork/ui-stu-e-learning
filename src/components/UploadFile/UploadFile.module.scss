@@ -1,0 +1,17 @@
+.input {
+    display: none;
+}
+
+.wrapper {
+    background-color: var(--white);
+    border-radius: 5px;
+    padding: 10px 30px 10px 20px;
+    &:hover {
+        background-color: var(--primary);
+        color: var(--white);
+    }
+}
+
+.icon {
+    margin-right: 15px;
+}

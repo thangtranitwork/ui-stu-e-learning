@@ -1,0 +1,40 @@
+.course {
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  &:hover {
+    transform: scale(101%);
+  }
+  background-color: var(--white);
+}
+
+.icon {
+  padding-right: 10px;
+  margin-top: 2px;
+}
+
+.course-star {
+  display: flex;
+  gap: 10px;
+}
+
+.hot {
+  background: linear-gradient(
+    to bottom right,
+    #cdfadb,
+    #f6fdc3,
+    #ffcf96,
+    #ff8080
+  );
+}
+
+.reviewMode {
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom right,
+    #f3f3f3,
+    #c5e898,
+    #29adb2,
+    #0766ad
+  );
+}

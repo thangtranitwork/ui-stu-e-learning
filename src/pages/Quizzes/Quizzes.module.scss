@@ -1,0 +1,61 @@
+.quizzes-container {
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.left-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.right-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.content {
+  display: flex;
+  gap: 20px;
+}
+
+.hottest-quizzes {
+  flex: 3.5;
+}
+
+.normal-quizzes {
+  flex: 6.5;
+}
+
+.quizzes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .search-form {
+    & input {
+      width: 150px;
+      height: 25px;
+    }
+  }
+
+  .content {
+    flex-direction: column;
+  }
+
+  .hottest-quizzes {
+    flex: 1;
+  }
+
+  .normal-quizzes {
+    flex: 1;
+  }
+}

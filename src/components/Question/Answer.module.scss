@@ -1,0 +1,52 @@
+.answer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 10px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: white;
+    text-shadow: 1px 1px 2px black;
+    min-height: 15vh;
+    transition: background-color 0.3s ease-in-out;
+    user-select: none;
+    &.correct {
+      background-color: #399918 !important;
+    }
+  
+    &.incorrect {
+      background-color: #FF0000 !important;
+    }
+  
+    &.neutral {
+      background-color: grey !important;
+      color: white;
+    }
+  
+    &.color-1 {
+      background-color: #EA047E;
+    }
+  
+    &.color-2 {
+      background-color: #FCE700;
+    }
+  
+    &.color-3 {
+      background-color: #FF6D28;
+    }
+  
+    &.color-4 {
+      background-color: #00F5FF;
+    }
+  
+    &.disabled {
+      pointer-events: none;
+      opacity: 0.6;
+    }
+  
+    &:hover {
+      transform: scale(1.01);
+    }
+  }
+  

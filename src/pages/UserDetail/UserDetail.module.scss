@@ -1,0 +1,101 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-detail-card {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px;
+  width: 80vw;
+  margin: auto;
+}
+
+.avatar-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.avatar-wrapper {
+  position: relative;
+  margin-right: 20px;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.camera-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #333;
+  border-radius: 50%;
+  font-size: 12px;
+  padding: 5px 9px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.camera-icon:hover {
+  background-color: #555;
+}
+
+.avatar-input {
+  display: none;
+}
+
+.info-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.bio {
+  font-style: italic;
+  color: #777;
+}
+
+
+.info {
+  font-size: 16px;
+  color: #555;
+}
+
+.update-section {
+  margin-bottom: 20px;
+}
+
+.button-container {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-button {
+  flex: 1;
+}
+
+.activation-section {
+  margin-bottom: 20px;
+}
+
+.friend-btn {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  right: 10%;
+}

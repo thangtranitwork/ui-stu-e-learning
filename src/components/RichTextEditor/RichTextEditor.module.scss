@@ -1,0 +1,29 @@
+.editor-wrapper {
+    position: relative;
+    border: 1px solid #ccc;
+    padding: 35px;
+    margin: 30px 0px;
+    border-radius: 4px;
+    background-color: white;
+    transition: all 0.3s ease;
+}
+
+.inpopup {
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+.label {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    padding: 0 5px;
+    background: white;
+    font-size: large;
+    color: var(--black);
+    transition: all 0.3s ease;
+}
+
+.focused {
+    border-color: var(--black);
+}

@@ -1,0 +1,40 @@
+.lesson-detail {
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  margin: 2vh 5vh;
+  border-radius: 10px;
+  max-width: 1000px;
+}
+
+.lesson-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: -10px -10px 0px;
+    padding: 20px;
+    background-color: var(--primary);
+    border-radius: 8px 8px 0 0; 
+}
+
+.course {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+}
+
+.creator {
+  font-size: 1rem;
+  text-align: right; /* Căn phải nội dung trong khối creator */
+}
+
+.lesson-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.lesson-theory {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  white-space: pre-wrap; /* Hiển thị đúng định dạng lý thuyết */
+}

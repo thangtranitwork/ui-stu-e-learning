@@ -1,0 +1,44 @@
+.friends-container {
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+
+.left-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.right-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.friends-list {
+  display: flex;
+  flex-direction: column;
+  padding: 50px 20px;
+  border-radius: 10px;
+  align-items: center; /* Căn giữa các phần tử con theo chiều ngang */
+  gap: 20px;          /* Khoảng cách giữa các phần tử */
+}
+
+@media (max-width: 768px) {
+  .search-form {
+    & input {
+      width: 150px;
+      height: 25px;
+    }
+  }
+
+  .content {
+    flex-direction: column;
+  }
+}

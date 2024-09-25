@@ -1,0 +1,27 @@
+.circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  position: relative;
+  background: conic-gradient(#00FF00 360deg, #ffffff 0deg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.innerCircle {
+  width: 90px;
+  height: 90px;
+  background-color: #ffffff; /* Giữ nền bên trong luôn trắng */
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.timeText {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #000;
+  user-select: none;
+}

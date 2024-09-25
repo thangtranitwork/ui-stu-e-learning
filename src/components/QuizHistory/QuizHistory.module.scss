@@ -1,0 +1,64 @@
+// src/components/Quiz.module.scss
+
+.quiz {
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: transform 0.2s ease-in-out;
+  background-color: var(--white);
+  min-height: 200px; /* Điều chỉnh giá trị này phù hợp với nội dung của bạn */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  &:hover {
+    transform: scale(101%);
+  }
+}
+
+
+.quiz-name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.quiz-description {
+  margin-top: 10px;
+  color: #666;
+}
+
+.quiz-duration,
+.quiz-playedTimes {
+  margin-top: 5px;
+}
+
+.low {
+  background: linear-gradient(
+    to top left,
+    #FEF2F4,
+    #FCC8D1,
+    #FFABAB,
+    #D14D72
+  );
+}
+
+.high {
+  background: linear-gradient(
+    to top left,
+    #E1F0DA,
+    #D4E7C5,
+    #BFD8AF,
+    #99BC85
+  );
+}
+
+.can-continue {
+  color: var(--white);
+  background: linear-gradient(
+    to top left,
+    #FFF7F7,
+    #C68FE6,
+    #6C48C5,
+    #1230AE
+  );
+}

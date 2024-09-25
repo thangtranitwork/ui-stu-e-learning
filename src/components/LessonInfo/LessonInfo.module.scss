@@ -1,0 +1,46 @@
+.lesson-info {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: var(--gray);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  justify-content: space-between; // Align icon to the right
+
+  &:hover {
+    transform: scale(101%);
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+  }
+}
+
+.lesson-index {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin: 0px 30px 0px 10px;
+  color: var(--black);
+}
+
+.lesson-name {
+  font-size: 1em;
+  color: var(--black);
+}
+
+.completed {
+  background: linear-gradient(
+    to bottom right,
+    #9bec00,
+    #06d001,
+    #059212
+  );
+}
+
+.lesson-icon {
+  margin-left: auto;
+  padding-left: 20px;
+  color: var(--primary-color); // Adjust color as needed
+}

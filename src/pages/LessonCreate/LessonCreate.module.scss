@@ -1,0 +1,20 @@
+.card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  width: 80vw;
+  margin: 50px auto;
+  transition: all 0.3s ease;
+  &:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  & input {
+    width: 75vw;
+  }
+
+  & .textarea {
+    width: 70vw;
+  }
+}

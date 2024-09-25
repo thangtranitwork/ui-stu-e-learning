@@ -1,0 +1,52 @@
+
+.page-button {
+  margin: 0 5px;
+  padding: 10px 15px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-button.active {
+  background-color: var(--primary);
+  border-radius: 50%;
+  color: white;
+}
+
+.arrow-button {
+  padding: 10px;
+  font-size: 20px;
+}
+
+.page-button:disabled {
+  color: #878787;
+  cursor: not-allowed;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center; /* Canh giữa các nút theo chiều ngang */
+  align-items: center; /* Canh giữa theo chiều dọc */
+  margin-top: 20px;
+}
+
+.page-input {
+  margin-left: 15px; /* Thêm khoảng cách giữa các nút */
+  padding: 5px; /* Để tạo khoảng không gian cho input */
+  text-align: center; /* Canh giữa nội dung bên trong input */
+  width: 3vw; /* Đặt kích thước cho input để dễ dàng canh chỉnh */
+  font-size: 16px;
+  border: 1px solid #ccc; /* Thêm viền cho input */
+  border-radius: 4px;
+}
+
+.page-input:invalid {
+  border-color: red;
+  color: red;
+}

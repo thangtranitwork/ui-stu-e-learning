@@ -1,0 +1,37 @@
+.question-editor {
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: var(--secondary);
+  border-radius: 8px;
+  margin: 20px auto;
+
+  h4,
+  h3 {
+    margin-bottom: 10px;
+  }
+
+  .answer-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .button {
+    margin-top: 10px;
+    margin-right: 20px;
+  }
+
+  .delete-button {
+    margin-left: 10px;
+    background-color: red;
+    color: white;
+  }
+
+  .correct-answer {
+    border: 2px solid green;
+  }
+
+  .incorrect-answer {
+    border: 2px solid red;
+  }
+}

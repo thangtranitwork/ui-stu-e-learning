@@ -1,0 +1,36 @@
+.user-info-link {
+  width: 80vw;
+  padding: 10px 10px 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: var(--white);
+  &:hover {
+    transform: scale(105%);
+  }
+}
+.user-info {
+  &-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    transform: translateY(10px);
+  }
+
+  &-name {
+    font-size: 16px;
+    font-weight: bold;
+  }
+}
+
+.online-circle {
+  width: 15px;
+  height: 15px;
+  background-color: lightgreen;
+  display: inline-block;
+  position: relative;
+  top: -15px;
+  right: 21px;
+  border-radius: 50%;
+}

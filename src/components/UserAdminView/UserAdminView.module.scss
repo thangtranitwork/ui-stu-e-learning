@@ -1,0 +1,53 @@
+.user-info {
+  width: 80vw;
+  padding: 10px 10px 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: var(--bg);
+
+  &-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    transform: translateY(10px);
+  }
+
+  &-id {
+    font-size: 14px;
+    padding-left: 20px;
+}
+
+  &-name {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  &-roles {
+    margin-top: 10px;
+  }
+
+  &-role {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Đẩy checkbox về phía bên phải */
+    margin-bottom: 5px;
+    font-size: 14px;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: var(--primary-light); /* Màu nền nhạt cho mỗi vai trò */
+  }
+
+  /* Tùy chỉnh checkbox */
+  &-role input[type="checkbox"] {
+    transform: scale(1.5); /* Tăng kích thước checkbox */
+    accent-color: var(--secondary); /* Màu chủ đạo cho checkbox khi chọn */
+  }
+
+  /* Hiệu ứng hover */
+  &-role:hover {
+    color: var(--white);
+    background-color: var(--primary); /* Màu nền đậm hơn khi hover */
+  }
+}

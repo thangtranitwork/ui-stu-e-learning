@@ -1,0 +1,39 @@
+.table {
+  width: 90%;
+  background-color: var(--secondary);
+  border: 2px solid white;
+  margin: 5%;
+  border-collapse: collapse; /* Đảm bảo không có khoảng trống giữa các ô */
+
+  th, td {
+    padding: 5px 10px; /* Thêm khoảng cách bên trong ô */
+    border: 1px solid white; /* Viền ô */
+  }
+
+  th {
+    color: var(--white);
+    text-transform: uppercase;
+    background-color: var(--primary);
+  }
+
+  td {
+    text-align: center;
+    color: var(--text-color);
+  }
+
+  /* Hover hiệu ứng cho hàng */
+  tr:hover {
+    background-color: var(--hightlight);
+    cursor: pointer; /* Đổi con trỏ chuột khi hover */
+  }
+
+  /* Phần nút hành động trong cột cuối cùng */
+  td:last-child {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Khoảng cách giữa các nút */
+  }
+  td:ntn-child(even){
+    background-color: aqua;
+  }
+}
