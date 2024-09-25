@@ -1,4 +1,4 @@
-export const BACKEND_BASE_URL = "https://elearning-c9vj.onrender.com/";
+export const BACKEND_BASE_URL = "https://elearning-c9vj.onrender.com";
 export const DEFAULT_AVATAR_URL =
   "https://res.cloudinary.com/dw7hrsbba/image/upload/v1723655237/default-avatar.jpg";
 export const LOGO_URL =
