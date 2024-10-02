@@ -3,12 +3,13 @@ import styles from "./LessonCreate.module.scss";
 import Input from "../../components/Input";
 import RichTextEditor from "../../components/RichTextEditor";
 import { useNavigate, useParams } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import Button from "../../components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import { BACKEND_BASE_URL } from "../../constant";
+import { getToken } from "../../App";
 export default function Index() {
   const { courseId } = useParams();
   const [name, setName] = useState("");
@@ -27,7 +28,7 @@ export default function Index() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            Authorization: `Bearer ${getToken()}`,
           },
           body: JSON.stringify({
             name,

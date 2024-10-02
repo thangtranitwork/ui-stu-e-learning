@@ -1,7 +1,10 @@
+.user-info-link {
+  float: inline-end;
+}
+
 .user-info {
   padding: 10px;
   border-radius: 8px;
-  float: inline-end;
   cursor: pointer;
   &-avatar {
     width: 40px;

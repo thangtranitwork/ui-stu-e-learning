@@ -3,6 +3,7 @@ import { DEFAULT_AVATAR_URL, BACKEND_BASE_URL } from "../../constant";
 import styles from "./UserAdminView.module.scss";
 import { toast } from "react-toastify";
 import Button from "../Button";
+import { getToken } from "../../App";
 
 export default function UserAdminView({ user }) {
   const cx = classNames.bind(styles);
@@ -27,7 +28,7 @@ export default function UserAdminView({ user }) {
         method: "PATCH", // Phương thức POST để grant/revoke
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // Token từ localStorage
+          Authorization: `Bearer ${getToken()}`, // Token từ localStorage
         },
       });
 

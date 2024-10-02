@@ -21,6 +21,7 @@ import "react-quill/dist/quill.snow.css";
 import { toast } from "react-toastify";
 import Pagination from "../../components/Pagination";
 import Review from "../../components/Review";
+import { getToken } from "../../App";
 
 const cx = classNames.bind(styles);
 
@@ -32,7 +33,7 @@ export default function CourseDetail() {
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const token = localStorage.getItem("accessToken");
+        const token = getToken();
         const headers = {
           "Content-Type": "application/json",
         };
@@ -64,7 +65,7 @@ export default function CourseDetail() {
 
   const handleEnroll = async () => {
     try {
-      const token = localStorage.getItem("accessToken");
+      const token = getToken();
       const headers = {
         "Content-Type": "application/json",
       };
@@ -97,7 +98,7 @@ export default function CourseDetail() {
 
   const handleBuy = async () => {
     try {
-      const token = localStorage.getItem("accessToken");
+      const token = getToken();
       const headers = {
         "Content-Type": "application/json",
       };
@@ -126,7 +127,7 @@ export default function CourseDetail() {
 
   const handleContinue = async () => {
     try {
-      const token = localStorage.getItem("accessToken");
+      const token = getToken();
       const headers = {
         "Content-Type": "application/json",
       };

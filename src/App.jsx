@@ -22,11 +22,15 @@ export function setToken(token) {
   }
 }
 
+export function getToken(){
+  return localStorage.getItem("accessToken");
+}
+
 export default function App() {
   useEffect(() => {
     setTimeout(() => {
       const checkTokenExpiry = async () => {
-        const token = localStorage.getItem("accessToken");
+        const token = getToken();
         const tokenExpiry = localStorage.getItem("tokenExpiry");
         const currentTime = Math.floor(Date.now() / 1000);
         const timeLeft = !token ? 0 : tokenExpiry - currentTime;

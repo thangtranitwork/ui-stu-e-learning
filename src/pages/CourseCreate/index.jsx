@@ -7,6 +7,7 @@ import Input from "../../components/Input";
 import RichTextEditor from "../../components/RichTextEditor";
 import { useNavigate } from "react-router-dom";
 import Course from "../../components/Course";
+import { getToken } from "../../App";
 
 export default function CourseCreate() {
   // Sử dụng một state duy nhất để lưu trữ tất cả thông tin của khóa học
@@ -43,7 +44,7 @@ export default function CourseCreate() {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem("accessToken");
+      const token = getToken();
       const response = await fetch(`${BACKEND_BASE_URL}/api/courses/new`, {
         method: "POST",
         headers: {

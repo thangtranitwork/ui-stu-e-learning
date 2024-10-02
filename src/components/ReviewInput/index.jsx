@@ -7,6 +7,7 @@ import styles from "./ReviewInput.module.scss";
 import { toast } from "react-toastify";
 import { BACKEND_BASE_URL } from "../../constant";
 import Button from "../Button";
+import { getToken } from "../../App";
 
 const cx = classNames.bind(styles);
 
@@ -45,7 +46,7 @@ const ReviewInput = ({ courseId }) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            Authorization: `Bearer ${getToken()}`,
           },
           body: JSON.stringify({
             star: selectedStars,

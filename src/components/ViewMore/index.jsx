@@ -10,16 +10,16 @@ function ViewMore({ url, render }) {
   const handleViewMore = useCallback(async () => {
     const response = await fetch(`${url}?page=${currentPageIndex + 1}`);
     const data = await response.json();
-
+    console.log(data);
+    
     if (data.code === 200) {
+      // Đảm bảo `totalPages` được cập nhật chỉ một lần, khi dữ liệu được tải lần đầu tiên
+      if (currentPageIndex === -1) {
+        setTotalPages(data.body.totalPages);
+      }
       // Sửa lỗi: Kết hợp dữ liệu cũ và mới đúng cách
       setCurrentData([...currentData, ...data.body.content]);
       setCurrentPagesIndex(currentPageIndex + 1);
-
-      // Đảm bảo `totalPages` được cập nhật chỉ một lần, khi dữ liệu được tải lần đầu tiên
-      if (currentPageIndex === -1) {
-        setTotalPages(data.body.page.totalPages);
-      }
     } else {
       toast.error(data.message);
     }

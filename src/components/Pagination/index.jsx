@@ -9,6 +9,7 @@ import {
   faAnglesRight,
 } from "@fortawesome/free-solid-svg-icons";
 import Table from "../Table";
+import { getToken } from "../../App";
 
 const cx = classNames.bind(styles);
 
@@ -27,6 +28,7 @@ export default function Pagination({
 
   // Apply debouncing to searchQuery
   useEffect(() => {
+    
     const handler = setTimeout(() => {
       setDebouncedQuery(searchQuery); // Set debounced value after a delay
     }, 1000); // Delay time in milliseconds (e.g., 500ms)
@@ -51,7 +53,7 @@ export default function Pagination({
 
         // Kiểm tra nếu attachToken là true thì thêm Authorization header
         if (attachToken) {
-          const accessToken = localStorage.getItem("accessToken"); // Lấy token từ localStorage
+          const accessToken = getToken(); // Lấy token từ localStorage
           if (accessToken) {
             headers["Authorization"] = `Bearer ${accessToken}`;
           }
@@ -69,7 +71,7 @@ export default function Pagination({
         console.warn(data);
         
         setCurrentPageData(data.body.content);
-        setTotalPages(data.body.page.totalPages || 1);
+        setTotalPages(data.body.totalPages || 1);
       } catch (error) {
         console.error("Error fetching page data:", error);
       }
@@ -166,11 +168,11 @@ export default function Pagination({
               type="number"
               className={cx("page-input")}
               min={1}
-              max={totalPages}
+              max={totalPages || 0}
               value={currentPage + 1} /* Show the correct page in the input */
               onChange={(e) => handlePageChange(e.target.value - 1)}
             />
-            <em> trong {totalPages} trang</em>
+            <em> trong {totalPages || 0} trang</em>
           </div>
         </div>
       </div>

@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import OAuth2Login from "../../components/OAuth2Login";
 import { toast } from "react-toastify";
 import { BACKEND_BASE_URL } from "../../constant";
+import { getToken } from "../../App";
 
 const cx = classNames.bind(styles);
 
@@ -19,7 +20,7 @@ export default function Register() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem("accessToken")) {
+    if (getToken()) {
       navigate("/");
     }
   }, [navigate]);

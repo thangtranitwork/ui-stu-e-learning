@@ -10,6 +10,7 @@ import Course from "../../components/Course";
 import LessonInfo from "../../components/LessonInfo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilSquare } from "@fortawesome/free-solid-svg-icons";
+import { getToken } from "../../App";
 
 export default function EditCourse() {
   const { courseId } = useParams(); // Lấy courseId từ URL
@@ -29,7 +30,7 @@ export default function EditCourse() {
 
     const fetchcourse = async () => {
       try {
-        const token = localStorage.getItem("accessToken");
+        const token = getToken();
         const userId = localStorage.getItem("userId");
 
         const response = await fetch(
@@ -84,7 +85,7 @@ export default function EditCourse() {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem("accessToken");
+      const token = getToken();
       const response = await fetch(
         `${BACKEND_BASE_URL}/api/courses/${courseId}/update`,
         {

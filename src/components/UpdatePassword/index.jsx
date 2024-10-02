@@ -6,6 +6,7 @@ import styles from "./UpdatePassword.module.scss";
 import { BACKEND_BASE_URL } from "../../constant";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { getToken } from "../../App";
 
 const cx = classNames.bind(styles);
 
@@ -19,7 +20,7 @@ export default function UpdatePassword({ onCancel }) {
     fetch(`${BACKEND_BASE_URL}/api/users/update/password`, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     })
       .then((response) => response.json())
@@ -39,7 +40,7 @@ export default function UpdatePassword({ onCancel }) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify({ otp }),
     })
@@ -66,7 +67,7 @@ export default function UpdatePassword({ onCancel }) {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify({ password }),
     })

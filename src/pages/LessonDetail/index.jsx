@@ -6,6 +6,7 @@ import { BACKEND_BASE_URL } from "../../constant";
 import UserInfo from "../../components/UserInfo";
 import LessonInfo from "../../components/LessonInfo";
 import Loader from "../../components/Loader";
+import { getToken } from "../../App";
 
 const cx = classNames.bind(styles);
 
@@ -28,7 +29,7 @@ export default function LessonDetail() {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // Đính kèm accessToken
+              Authorization: `Bearer ${getToken()}`, // Đính kèm accessToken
             },
           }
         );
@@ -55,7 +56,7 @@ export default function LessonDetail() {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // Đính kèm accessToken
+              Authorization: `Bearer ${getToken()}`, // Đính kèm accessToken
             },
           }
         );
@@ -93,7 +94,7 @@ export default function LessonDetail() {
             method: "PATCH",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // Đính kèm accessToken
+              Authorization: `Bearer ${getToken()}`, // Đính kèm accessToken
             },
           }
         );

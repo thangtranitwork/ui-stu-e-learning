@@ -15,6 +15,7 @@ import {
   faPenToSquare,
   faQuestionCircle,
 } from "@fortawesome/free-solid-svg-icons";
+import { getToken } from "../../App";
 
 export default function QuizCreate() {
   const cx = classNames.bind(styles);
@@ -91,7 +92,7 @@ export default function QuizCreate() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          Authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify(quiz),
       });

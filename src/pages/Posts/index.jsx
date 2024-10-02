@@ -67,7 +67,7 @@ export default function Posts() {
         <div className={cx("right-buttons")}>
           <form onSubmit={handleSearchSubmit} className={cx("search-form")}>
             <Input
-              type="text"
+              type="search"
               placeholder="Tìm kiếm"
               value={searchQuery}
               onChange={handleSearchChange}

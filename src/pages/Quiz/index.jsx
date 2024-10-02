@@ -9,6 +9,7 @@ import Button from "../../components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import Popup from "../../components/Popup";
+import { getToken } from "../../App";
 const Quiz = () => {
   const { quizId } = useParams();
   const [quizName, setQuizName] = useState("");
@@ -34,7 +35,7 @@ const Quiz = () => {
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // Đính kèm accessToken
+              Authorization: `Bearer ${getToken()}`, // Đính kèm accessToken
             },
           }
         );
@@ -84,7 +85,7 @@ const Quiz = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            Authorization: `Bearer ${getToken()}`,
           },
           body: JSON.stringify({
             answers: updatedQuestions.map((q) => ({

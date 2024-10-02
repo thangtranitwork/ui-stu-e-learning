@@ -8,6 +8,7 @@ import Table from "../Table";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { getToken } from "../../App";
 
 export default function ForbiddenWordsManage() {
   const [isPopupOpen, setIsPopupOpen] = useState(true);
@@ -16,7 +17,7 @@ export default function ForbiddenWordsManage() {
     fetch(`${BACKEND_BASE_URL}/api/admin/forbiddenWords/delete?id=${id}`, {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     })
       .then((response) => response.json())
@@ -37,7 +38,7 @@ export default function ForbiddenWordsManage() {
     fetch(`${BACKEND_BASE_URL}/api/admin/forbiddenWords/new`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${getToken()}`,
       },
       body: newWord,
     })

@@ -15,9 +15,11 @@ import {
   CourseCreatePage,
   EditCoursePage,
   PostsPage,
+  PostPage,
   FriendsPage,
   LessonCreate,
-  AdminPage
+  AdminPage,
+  ChatPage,
 } from "../pages";
 
 import { DefaultLayout } from "../components/Layout";
@@ -110,7 +112,11 @@ export const publicRoutes = [
     component: PostsPage,
     layout: DefaultLayout,
   },
-
+  {
+    path: "/posts/:postId",
+    component: PostPage,
+    layout: DefaultLayout,
+  },
   {
     path: "/friends",
     component: FriendsPage,
@@ -118,13 +124,18 @@ export const publicRoutes = [
   },
 
   {
-    path : "/courses/:courseId/new",
+    path: "/courses/:courseId/new",
     component: LessonCreate,
     layout: DefaultLayout,
   },
   {
-    path : "/admin",
+    path: "/admin",
     component: AdminPage,
     layout: DefaultLayout,
-  }
+  },
+  {
+    path: "/chat/:targetUserId",
+    component: ChatPage,
+    layout: DefaultLayout,
+  },
 ];

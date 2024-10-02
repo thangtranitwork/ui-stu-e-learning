@@ -7,7 +7,7 @@ import Button from "../../components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCamera,
-  faUserCheck,
+  faMessage,
   faUserGroup,
   faUserMinus,
   faUserPlus,
@@ -22,6 +22,7 @@ import Course from "../../components/Course";
 import QuizInfo from "../../components/QuizInfo";
 import ViewMore from "../../components/ViewMore";
 import QuizHistory from "../../components/QuizHistory";
+import { getToken } from "../../App";
 
 const cx = classNames.bind(styles);
 
@@ -47,7 +48,7 @@ export default function UserDetail() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem("accessToken");
+        const token = getToken();
         const headers = {
           "Content-Type": "application/json",
         };
@@ -84,7 +85,7 @@ export default function UserDetail() {
       method: "PUT",
       body: formData,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     })
       .then((response) => response.json())
@@ -105,7 +106,7 @@ export default function UserDetail() {
     fetch(`${BACKEND_BASE_URL}/api/friendship/${id}/add`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     })
       .then((response) => response.json())
@@ -126,7 +127,7 @@ export default function UserDetail() {
     fetch(`${BACKEND_BASE_URL}/api/friendship/${id}/accept`, {
       method: "PATCH",
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     })
       .then((response) => response.json())
@@ -147,7 +148,7 @@ export default function UserDetail() {
     fetch(`${BACKEND_BASE_URL}/api/friendship/${id}/cancel`, {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     })
       .then((response) => response.json())
@@ -168,7 +169,7 @@ export default function UserDetail() {
     fetch(`${BACKEND_BASE_URL}/api/friendship/${id}/unfriend`, {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     })
       .then((response) => response.json())
@@ -306,9 +307,10 @@ export default function UserDetail() {
               <>
                 <Button
                   primary
-                  rightIcon={<FontAwesomeIcon icon={faUserCheck} />}
+                  to={`/chat/${id}`}
+                  rightIcon={<FontAwesomeIcon icon={faMessage} />}
                 >
-                  Bạn bè
+                  Nhắn tin
                 </Button>
                 <Button
                   secondary

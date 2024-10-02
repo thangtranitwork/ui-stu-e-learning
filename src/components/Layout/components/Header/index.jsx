@@ -8,12 +8,13 @@ import {
   faCircleUser,
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
+import { getToken } from "../../../../App";
 
 const Header = () => {
   const cx = classNames.bind(styles);
   const toggler = useRef();
   const location = useLocation(); // Sử dụng useLocation để lấy đường dẫn hiện tại
-  const hasToken = localStorage.getItem("accessToken") !== null;
+  const hasToken = getToken() !== null;
 
   const handleLinkClick = () => {
     if (toggler.current.checked) {

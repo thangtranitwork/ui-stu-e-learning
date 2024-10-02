@@ -1,0 +1,37 @@
+.message-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 10px 0;
+
+  &.own {
+    justify-content: flex-end;
+  }
+}
+
+.message-text {
+  padding: 5px 10px;
+  border-radius: 10px;
+  max-width: 60%;
+  background-color: lightgray;
+  color: #000;
+  word-break: break-all;
+  &.own {
+    background-color: blue;
+    color: var(--white);
+  }
+}
+
+.message-image {
+  max-width: 200px;
+  border-radius: 10px;
+}
+
+.user-info {
+  margin-left: 5px;
+
+  &.own {
+    margin-left: 0;
+    margin-right: 5px; /* UserInfo của mình nằm bên phải */
+  }
+}

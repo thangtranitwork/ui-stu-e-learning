@@ -27,7 +27,7 @@ const Star = ({ rating }) => {
   }
   return (
     <span className={cx("star-rating")}>
-      {stars}({rating.toFixed(2)})
+      {stars}({rating?.toFixed(2)})
     </span>
   );
 };

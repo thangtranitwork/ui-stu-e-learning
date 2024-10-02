@@ -16,6 +16,7 @@ import Button from "../../components/Button";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BACKEND_BASE_URL } from "../../constant";
+import { getToken } from "../../App";
 
 const cx = classNames.bind(styles);
 
@@ -37,7 +38,7 @@ export default function EditProfile() {
   useEffect(() => {
     fetch(`${BACKEND_BASE_URL}/api/users/${localStorage.getItem("userId")}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     })
       .then((response) => response.json())
@@ -75,7 +76,7 @@ export default function EditProfile() {
       body: JSON.stringify(user),
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     })
       .then((response) => response.json())
@@ -106,7 +107,7 @@ export default function EditProfile() {
       method: "PUT",
       body: formData,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     })
       .then((response) => response.json())

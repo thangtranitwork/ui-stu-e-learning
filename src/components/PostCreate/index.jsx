@@ -9,6 +9,7 @@ import { BACKEND_BASE_URL } from "../../constant";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toast } from "react-toastify";
+import { getToken } from "../../App";
 
 function PostCreate({ onClose }) {
   const [title, setTitle] = useState("");
@@ -23,7 +24,7 @@ function PostCreate({ onClose }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          Authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify({
           title,

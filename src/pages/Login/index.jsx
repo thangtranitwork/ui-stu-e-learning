@@ -3,7 +3,6 @@ import classNames from "classnames/bind";
 import styles from "./Login.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faKey, faEnvelope, faXmark } from "@fortawesome/free-solid-svg-icons";
-import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
@@ -12,7 +11,7 @@ import OAuth2Login from "../../components/OAuth2Login";
 import { BACKEND_BASE_URL } from "../../constant";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { setToken } from "../../App";
+import { getToken, setToken } from "../../App";
 import moment from "moment/moment";
 
 const cx = classNames.bind(styles);
@@ -24,7 +23,7 @@ export default function Login() {
 
   useEffect(() => {
     setTimeout(() => {
-      if (localStorage.getItem("accessToken")) {
+      if (getToken()) {
         toast.info("Bạn đã đăng nhập!")
         navigate("/");
       }

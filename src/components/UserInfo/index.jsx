@@ -39,3 +39,32 @@ const UserInfo = ({ user, className }) => {
 };
 
 export default UserInfo;
+
+export function UserAvartarOnly ({ user, className }) {
+  const cx = classNames.bind(styles);
+  const navigate = useNavigate();
+
+  // Kiểm tra người dùng có online hay không
+  const isUserOnline = () => {
+    if (!user?.lastOnline) return false;
+    const lastOnlineDate = new Date(user.lastOnline);
+    return Date.now() < lastOnlineDate.getTime();
+  };
+
+  return (
+    <span
+      className={cx("user-info-link", className)}
+      onClick={() => navigate(`/users/${user?.id}`)}
+    >
+      <span className={cx("user-info")}>
+        <img
+          className={cx("user-info-avatar")}
+          src={user?.avatar || DEFAULT_AVATAR_URL}
+          alt={`${user?.lastname} ${user?.firstname}`}
+        />
+        {isUserOnline() && <p className={cx("online-circle")}></p>}
+      </span>
+    </span>
+  );
+};
+
