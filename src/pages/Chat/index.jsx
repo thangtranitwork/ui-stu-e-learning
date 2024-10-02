@@ -40,7 +40,7 @@ function ChatRoom() {
 
   // Setup WebSocket connection
   const setupWebSocket = useCallback((fId) => {
-    const socket = new SockJS("http://localhost:8080/ws");
+    const socket = new SockJS(`${BACKEND_BASE_URL}/ws`);
     const client = Stomp.over(socket);
 
     client.connect(
