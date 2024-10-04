@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { toast } from "react-toastify";
-
+import Button from "../Button";
 const CameraCapture = ({ onCapture }) => {
   const [imageSrc, setImageSrc] = useState(null);
   const videoRef = useRef(null);
@@ -23,16 +23,9 @@ const CameraCapture = ({ onCapture }) => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
-
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    // Chuyển hình ảnh thành Blob để gửi
     canvas.toBlob((blob) => {
       setImageSrc(URL.createObjectURL(blob)); // Hiển thị hình ảnh đã chụp
-      if (onCapture) {
-        onCapture(blob); // Truyền file Blob ra ngoài component để gửi
-      }
-
       // Tắt camera sau khi chụp
       const stream = video.srcObject;
       const tracks = stream.getTracks();
@@ -55,6 +48,16 @@ const CameraCapture = ({ onCapture }) => {
     startCamera();
   };
 
+  const handleOK = () => {
+    const canvas = canvasRef.current;
+    canvas.toBlob((blob) => {
+      setImageSrc(URL.createObjectURL(blob)); // Hiển thị hình ảnh đã chụp
+      if (onCapture) {
+        onCapture(blob); // Truyền file Blob ra ngoài component để gửi
+      }
+    }, "image/png");
+  };
+
   return (
     <div>
       <h2>Camera Capture</h2>
@@ -62,8 +65,8 @@ const CameraCapture = ({ onCapture }) => {
         <video
           ref={videoRef}
           autoPlay
-          width="320"
-          height="240"
+          width="600"
+          height="450"
           style={{ border: "1px solid black" }}
         ></video>
       ) : (
@@ -75,18 +78,22 @@ const CameraCapture = ({ onCapture }) => {
 
       <canvas
         ref={canvasRef}
-        width="320"
-        height="240"
+        width="600"
+        height="450"
         style={{ display: "none" }}
       ></canvas>
 
       <div>
         {!imageSrc ? (
-          <button onClick={captureImage}>Capture Image</button>
+          <Button onClick={captureImage}>Chụp</Button>
         ) : (
           <div>
-            <button onClick={retakeImage}>Retake</button>
-            <button>OK</button>
+            <Button secondary onClick={retakeImage}>
+              Chụp lại
+            </Button>
+            <Button primary onClick={handleOK}>
+              OK
+            </Button>
           </div>
         )}
       </div>

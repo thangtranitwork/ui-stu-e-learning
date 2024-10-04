@@ -228,6 +228,7 @@ function ChatRoom() {
       const data = await response.json();
       if (data.code === 200) {
         setIsUploadImagePopupOpen(false);
+        setIsCameraCapturePopupOpen(false);
         setFile(null);
       } else {
         toast.error(data.message);
@@ -280,7 +281,7 @@ function ChatRoom() {
         onClose={() => setIsCameraCapturePopupOpen(false)}
         title={"Chụp ảnh"}
       >
-        <CameraCapture onCapture={sendImage} />
+        <CameraCapture onCapture={(f) => sendImage(f)} />
       </Popup>
       <form onSubmit={sendMessage} className={cx("form")}>
         <span className={cx("image")}>
