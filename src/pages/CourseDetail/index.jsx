@@ -29,7 +29,8 @@ export default function CourseDetail() {
   const { courseId } = useParams();
   const navigate = useNavigate();
   const [course, setCourse] = useState(null);
-
+  console.log(course);
+  
   useEffect(() => {
     const fetchCourse = async () => {
       try {

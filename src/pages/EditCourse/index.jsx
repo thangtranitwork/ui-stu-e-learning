@@ -9,12 +9,14 @@ import RichTextEditor from "../../components/RichTextEditor";
 import Course from "../../components/Course";
 import LessonInfo from "../../components/LessonInfo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilSquare } from "@fortawesome/free-solid-svg-icons";
+import { faPencilSquare, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { getToken } from "../../App";
+import Popup from "../../components/Popup";
+import LessonEditor from "../../components/LessonEditor";
 
 export default function EditCourse() {
-  const { courseId } = useParams(); // Lấy courseId từ URL
-  const [course, setcourse] = useState({
+  const { courseId } = useParams();
+  const [course, setCourse] = useState({
     name: "",
     creator: {
       id: 0,
@@ -23,12 +25,17 @@ export default function EditCourse() {
     introduction: "",
     lessons: [],
   });
+  const [selectedLesson, setSelectedLesson] = useState(null); // Bài học được chọn
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isCreatingNewLesson, setIsCreatingNewLesson] = useState(false); // Thêm mới bài học
+  const [isLoadingLesson, setIsLoadingLesson] = useState(false); // Trạng thái chờ khi lấy bài học
+
   const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "Chỉnh sửa khóa học";
 
-    const fetchcourse = async () => {
+    const fetchCourse = async () => {
       try {
         const token = getToken();
         const userId = localStorage.getItem("userId");
@@ -45,14 +52,13 @@ export default function EditCourse() {
         const data = await response.json();
         if (data.code === 200) {
           const course = data.body;
-          // Kiểm tra quyền sở hữu khóa học
           if (course.creator.id !== userId) {
             toast.error("Bạn không có quyền chỉnh sửa khóa học này.");
             navigate("/");
             return;
           }
 
-          setcourse(course);
+          setCourse(course);
         } else {
           toast.error("Không thể lấy dữ liệu khóa học.");
           navigate("/");
@@ -63,19 +69,60 @@ export default function EditCourse() {
       }
     };
 
-    fetchcourse();
+    fetchCourse();
   }, [courseId, navigate]);
+
+  const fetchLesson = async (id) => {
+    try {
+      setIsLoadingLesson(true); // Bắt đầu chờ
+      const response = await fetch(
+        `${BACKEND_BASE_URL}/api/courses/${courseId}/lessons/${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getToken()}`,
+          },
+        }
+      );
+      const data = await response.json();
+      setIsLoadingLesson(false); // Kết thúc chờ
+
+      if (data.code === 200) {
+        return data.body; // Trả về dữ liệu bài học
+      } else {
+        toast.error("Không thể lấy dữ liệu bài học.");
+        return null;
+      }
+    } catch (error) {
+      setIsLoadingLesson(false); // Kết thúc chờ trong trường hợp lỗi
+      console.error("Error fetching lesson:", error);
+      toast.error("Đã có lỗi xảy ra khi lấy bài học.");
+      return null;
+    }
+  };
+
+  const handleLessonPopup = async (lesson = null) => {
+    if (lesson !== null) {
+      const lessonData = await fetchLesson(lesson.id); // Đợi lấy dữ liệu bài học
+      setSelectedLesson(lessonData); // Cập nhật bài học đã lấy
+    } else {
+      setSelectedLesson(null); // Tạo mới bài học
+    }
+    setIsCreatingNewLesson(lesson === null); // Xác định trạng thái thêm mới
+    setIsPopupOpen(true);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setcourse((prevState) => ({
+    setCourse((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
   const handleRichTextChange = (value) => {
-    setcourse((prevState) => ({
+    setCourse((prevState) => ({
       ...prevState,
       introduction: value,
     }));
@@ -101,7 +148,6 @@ export default function EditCourse() {
 
       if (data.code === 200) {
         toast.success("Khóa học đã được cập nhật thành công!");
-        // navigate(`/courses/${courseId}`);
       } else {
         toast.error(data.message);
       }
@@ -112,6 +158,26 @@ export default function EditCourse() {
 
   return (
     <div className={styles.card}>
+      {isPopupOpen && (
+        <Popup
+          isOpen={isPopupOpen}
+          onClose={() => setIsPopupOpen(false)}
+          title={selectedLesson === null ? "Thêm bài học" : "Chỉnh sửa bài học"}
+        >
+          {/* Hiển thị trạng thái chờ khi lấy bài học */}
+          {isLoadingLesson ? (
+            <p>Đang tải dữ liệu bài học...</p>
+          ) : (
+            <LessonEditor
+              initLesson={selectedLesson}
+              create={isCreatingNewLesson}
+              update={!isCreatingNewLesson}
+              courseId={courseId}
+            />
+          )}
+        </Popup>
+      )}
+
       <h1 className={styles.title}>Chỉnh Sửa Khóa Học</h1>
       <Course course={course} reviewMode />
       <form onSubmit={handleSubmit} className={styles.form}>
@@ -120,8 +186,8 @@ export default function EditCourse() {
           name="name"
           value={course.name}
           onChange={handleChange}
-          noBackground // Sử dụng input không có nền
-          white // Màu chữ trắng
+          noBackground
+          white
         />
         <Input
           placeholder="Giá khóa học"
@@ -129,16 +195,16 @@ export default function EditCourse() {
           value={course.price}
           onChange={handleChange}
           type="number"
-          noBackground // Sử dụng input không có nền
-          white // Màu chữ trắng
+          noBackground
+          white
         />
         <Input
           placeholder="Mô tả khóa học"
           name="description"
           value={course.description}
           onChange={handleChange}
-          noBackground // Sử dụng input không có nền
-          white // Màu chữ trắng
+          noBackground
+          white
         />
         <RichTextEditor
           value={course.introduction}
@@ -152,10 +218,14 @@ export default function EditCourse() {
 
         <div className={styles.lessonHeader}>
           <h3>Bài học</h3>
-          <Link to={`/courses/${courseId}/new`} className={styles.addLessonIcon}>
-            <FontAwesomeIcon icon={faPencilSquare} />
-          </Link>
+          <Button
+            className={styles.addLessonButton}
+            onClick={() => handleLessonPopup(null)} // Thêm mới bài học
+          >
+            <FontAwesomeIcon icon={faPlus} /> Thêm bài học
+          </Button>
         </div>
+
         <div className={styles.lessonList}>
           {Array.isArray(course.lessons) &&
             course.lessons.map((lesson, index) => (
@@ -166,6 +236,7 @@ export default function EditCourse() {
                 courseId={course.id}
                 disable={!course.enroll}
                 editing
+                onClick={() => handleLessonPopup(lesson)} // Chỉnh sửa bài học
               />
             ))}
         </div>

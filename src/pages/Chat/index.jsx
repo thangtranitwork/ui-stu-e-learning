@@ -14,12 +14,17 @@ import { BACKEND_BASE_URL } from "../../constant";
 import Message from "../../components/Message";
 import Input from "../../components/Input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCamera,
+  faImage,
+  faPaperPlane,
+} from "@fortawesome/free-solid-svg-icons";
 import styles from "./Chat.module.scss";
 import classNames from "classnames/bind";
 import UserInfo from "../../components/UserInfo";
 import Button from "../../components/Button";
 import Popup from "../../components/Popup";
+import CameraCapture from "../../components/CameraCapture";
 
 const cx = classNames.bind(styles);
 
@@ -33,10 +38,13 @@ function ChatRoom() {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [file, setFile] = useState(null);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isUploadImagePopupOpen, setIsUploadImagePopupOpen] = useState(false);
+  const [isCameraCapturePopupOpen, setIsCameraCapturePopupOpen] =
+    useState(false);
   const messageContainerRef = useRef(null);
   const prevScrollHeight = useRef(0);
   const [friendshipId, setFriendshipId] = useState("");
+  let isSending = false;
 
   // Setup WebSocket connection
   const setupWebSocket = useCallback((fId) => {
@@ -183,7 +191,7 @@ function ChatRoom() {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
       setFile(selectedFile);
-      setIsPopupOpen(true);
+      setIsUploadImagePopupOpen(true);
     }
   };
 
@@ -200,11 +208,12 @@ function ChatRoom() {
   };
 
   // Send the selected image
-  const sendImage = async () => {
-    if (!file) return;
-
+  const sendImage = async (f) => {
+    if (!f) return;
+    if (isSending) return;
+    isSending = true;
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("file", f);
     formData.append("friendshipId", friendshipId);
 
     try {
@@ -218,7 +227,7 @@ function ChatRoom() {
 
       const data = await response.json();
       if (data.code === 200) {
-        setIsPopupOpen(false);
+        setIsUploadImagePopupOpen(false);
         setFile(null);
       } else {
         toast.error(data.message);
@@ -226,6 +235,8 @@ function ChatRoom() {
     } catch (error) {
       console.error("Error sending image:", error);
       toast.error("Failed to send image");
+    } finally {
+      isSending = false;
     }
   };
 
@@ -238,18 +249,12 @@ function ChatRoom() {
         ref={messageContainerRef}
       >
         {messages.map((msg) => (
-          <Message
-            key={msg.id}
-            message={msg.content}
-            sender={msg.sender}
-            own={msg.sender.id === userId}
-            type={msg.type}
-          />
+          <Message key={msg.id} message={msg} own={msg.sender.id === userId} />
         ))}
       </div>
       <Popup
-        isOpen={isPopupOpen}
-        onClose={() => setIsPopupOpen(false)}
+        isOpen={isUploadImagePopupOpen}
+        onClose={() => setIsUploadImagePopupOpen(false)}
         title={"Xem trước"}
       >
         {file && (
@@ -261,14 +266,23 @@ function ChatRoom() {
             />
           </div>
         )}
-        <Button primary onClick={sendImage}>
+        <Button primary onClick={() => sendImage(file)}>
           Gửi
         </Button>
+
         <Button secondary onClick={handleImageChange}>
           Thay ảnh
         </Button>
       </Popup>
-      <form onSubmit={sendMessage}>
+
+      <Popup
+        isOpen={isCameraCapturePopupOpen}
+        onClose={() => setIsCameraCapturePopupOpen(false)}
+        title={"Chụp ảnh"}
+      >
+        <CameraCapture onCapture={sendImage} />
+      </Popup>
+      <form onSubmit={sendMessage} className={cx("form")}>
         <span className={cx("image")}>
           <input
             type="file"
@@ -280,6 +294,12 @@ function ChatRoom() {
           <label htmlFor="image">
             <FontAwesomeIcon className={cx("icon")} icon={faImage} />
           </label>
+        </span>
+        <span
+          onClick={() => setIsCameraCapturePopupOpen(true)}
+          className={cx("camera")}
+        >
+          <FontAwesomeIcon className={cx("icon")} icon={faCamera} />
         </span>
         <Input
           otherClass={cx("text")}

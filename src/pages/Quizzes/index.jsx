@@ -11,15 +11,32 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Pagination from "../../components/Pagination";
+import SockJS from "sockjs-client";
+import { Stomp } from "@stomp/stompjs";
+import { toast } from "react-toastify";
 
 const cx = classNames.bind(styles);
 
 export default function Quizzes() {
   const [hottestQuizzes, setHottestQuizzes] = useState([]); // State cho các hot quizzes
   const [searchQuery, setSearchQuery] = useState("");
-
+  const [quizzes, setQuizzes] = useState([]);
   useEffect(() => {
     document.title = "Trắc nghiệm";
+    const socket = new SockJS(`${BACKEND_BASE_URL}/ws`);
+    const client = Stomp.over(socket);
+
+    client.connect(
+      {},
+      () => {
+        client.subscribe(`/quiz`, (q) => {
+          setQuizzes((prevQuizzes) => [...prevQuizzes, JSON.parse(q.body)]);
+        });
+      },
+      () => {
+        toast.error("Có lỗi xảy ra khi kết nối WebSocket!");
+      }
+    );
   }, []);
 
   // Fetch hottest quizzes
@@ -91,6 +108,9 @@ export default function Quizzes() {
         <div className={cx("normal-quizzes")}>
           <h2>Trắc nghiệm mới nhất</h2>
           <div className={cx("quizzes-list")}>
+            {quizzes?.map((quiz) => (
+              <QuizInfo quiz={quiz} key={quiz.id} />
+            ))}
             <Pagination
               searchQuery={`name=${searchQuery}`}
               url={`${BACKEND_BASE_URL}/api/quizzes/search`}

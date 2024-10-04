@@ -4,4 +4,18 @@
   background-color: #fff;
   margin: 2vh 5vh;
   border-radius: 10px;
+
+  .content {
+    word-break: break-all;
+  }
+
+  .liked {
+    color: red;
+  }
+  .act-btn {
+    margin: 10px;
+    .share-btn {
+      float: inline-end;
+    }
+  }
 }

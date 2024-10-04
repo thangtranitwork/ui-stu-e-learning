@@ -8,8 +8,6 @@ import { faEye, faHeart } from "@fortawesome/free-solid-svg-icons";
 import Tag from "../Tag";
 export default function PostSearch({ post, hot }) {
   const cx = classNames.bind(styles);
-  console.log(post);
-
   return (
     <Link to={`/posts/${post.id}`}>
       <div className={cx("post", "b-shadow", { hot })}>

@@ -7,6 +7,10 @@
   &.own {
     justify-content: flex-end;
   }
+
+  &:hover .time{
+    opacity: 1;
+  }
 }
 
 .message-text {
@@ -22,9 +26,21 @@
   }
 }
 
+
+.time {
+  font-size: 10px;
+  font-style: italic;
+  margin: 0px 10px;
+  opacity: 0;
+}
+
 .message-image {
   max-width: 200px;
   border-radius: 10px;
+}
+
+.popup-image {
+  max-height: 80vh;
 }
 
 .user-info {

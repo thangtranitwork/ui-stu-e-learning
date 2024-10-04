@@ -16,11 +16,11 @@ export default function LessonInfo({
   courseId,
   disable,
   editing,
-  onClick
+  onClick,
 }) {
   const LessonContent = (
     <div
-    onClick={onClick}
+      onClick={onClick}
       className={cx("lesson-info", {
         completed: lesson.completed,
         disable,
@@ -30,13 +30,11 @@ export default function LessonInfo({
       <div className={cx("lesson-index")}>{index}</div>
       <div className={cx("lesson-name")}>{lesson.name}</div>
       <div className={cx("lesson-icon")}>
-        {lesson.completed ? (
-          <FontAwesomeIcon icon={faSquareCheck} />
-        ) : editing ? (
-          <Link to={`/courses/${courseId}/lessons/${lesson.id}/edit`}>
-            <FontAwesomeIcon icon={faPenToSquare} />
-          </Link>
-        ) : null}
+        {editing ? (
+          <FontAwesomeIcon icon={faPenToSquare} />
+        ) : (
+          lesson.completed && <FontAwesomeIcon icon={faSquareCheck} />
+        )}
       </div>
     </div>
   );

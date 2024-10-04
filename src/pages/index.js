@@ -16,6 +16,6 @@ export { default as PostsPage } from "./Posts";
 export { default as PostPage } from "./Post";
 export { default as QuizCreatePage } from "./QuizCreate";
 export { default as FriendsPage } from "./Friends";
-export { default as LessonCreate } from "./LessonCreate";
+export { default as LessonCreate } from "../components/LessonEditor";
 export { default as AdminPage } from "./Admin";
 export { default as ChatPage } from "./Chat";

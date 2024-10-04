@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PostSearch from "../../components/PostSearch";
 import styles from "./Posts.module.scss";
 import classNames from "classnames/bind";
@@ -13,6 +13,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Pagination from "../../components/Pagination";
 import Popup from "../../components/Popup";
 import PostCreate from "../../components/PostCreate";
+import SockJS from "sockjs-client";
+import { Stomp } from "@stomp/stompjs";
+import { toast } from "react-toastify";
 
 const cx = classNames.bind(styles);
 
@@ -20,8 +23,23 @@ export default function Posts() {
   const [hottestPosts, setHottestPosts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isCreateNewPostPopupOpen, setIsCreateNewPostOpen] = useState(false);
+  const [posts, setPosts] = useState([]);
   useEffect(() => {
     document.title = "Thảo luận";
+    const socket = new SockJS(`${BACKEND_BASE_URL}/ws`);
+    const client = Stomp.over(socket);
+
+    client.connect(
+      {},
+      () => {
+        client.subscribe(`/post`, (p) => {
+          setPosts((prevPosts) => [...prevPosts, JSON.parse(p.body)]);
+        });
+      },
+      () => {
+        toast.error("Có lỗi xảy ra khi kết nối WebSocket!");
+      }
+    );
   }, []);
 
   useEffect(() => {
@@ -105,6 +123,9 @@ export default function Posts() {
         <div className={cx("normal-posts")}>
           <h2>Bài viết mới nhất</h2>
           <div className={cx("posts-list")}>
+            {posts?.map((post) => (
+              <PostSearch post={post} key={post.id} />
+            ))}
             <Pagination
               searchQuery={`name=${searchQuery}`}
               render={(post) => <PostSearch post={post} key={post.id} />}

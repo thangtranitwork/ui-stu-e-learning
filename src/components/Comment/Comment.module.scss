@@ -1,0 +1,20 @@
+.comment {
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+
+  &:hover {
+    transform: scale(101%);
+  }
+  background-color: var(--white);
+  .creator {
+    float: none;
+  }
+  .time {
+    opacity: 0.7;
+    font-size: 16px;
+  }
+  .content {
+    margin: 10px 0px;
+  }
+}

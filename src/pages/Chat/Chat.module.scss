@@ -7,7 +7,7 @@
   .user {
     float: none;
   }
-  .phone-call-btn{
+  .phone-call-btn {
     float: inline-end;
   }
   .history-container {
@@ -19,12 +19,16 @@
     width: 80%;
     float: inline-end;
   }
-  .image {
-    input {
-      display: none;
+  .form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    .image {
+      input {
+        display: none;
+      }
     }
     .icon {
-      width: 10%;
       font-size: x-large;
       padding: 20px 10px 25px;
       &:hover {
