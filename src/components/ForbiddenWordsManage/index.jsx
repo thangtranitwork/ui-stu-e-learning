@@ -11,8 +11,9 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { getToken } from "../../App";
 
 export default function ForbiddenWordsManage() {
-  const [isPopupOpen, setIsPopupOpen] = useState(true);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [newWord, setNewWord] = useState("");
+
   const handleDeleteForbiddenWord = async (id) => {
     fetch(`${BACKEND_BASE_URL}/api/admin/forbiddenWords/delete?id=${id}`, {
       method: "DELETE",
@@ -35,6 +36,8 @@ export default function ForbiddenWordsManage() {
 
   const handleAddWord = async (e) => {
     e.preventDefault();
+    if (newWord === "") return;
+
     fetch(`${BACKEND_BASE_URL}/api/admin/forbiddenWords/new`, {
       method: "POST",
       headers: {
@@ -44,6 +47,7 @@ export default function ForbiddenWordsManage() {
     })
       .then((response) => response.json())
       .then((data) => {
+        setNewWord("");
         if (data.code === 200) {
           toast.success("Thêm từ khóa thành công");
         } else {
@@ -58,6 +62,7 @@ export default function ForbiddenWordsManage() {
   return (
     <div>
       <Button
+        style={{ float: "inline-end" }}
         noBackground
         scaleHoverAnimation
         onClick={() => setIsPopupOpen(true)}

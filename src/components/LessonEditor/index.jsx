@@ -11,11 +11,7 @@ import { toast } from "react-toastify";
 import { BACKEND_BASE_URL } from "../../constant";
 import { getToken } from "../../App";
 
-export default function LessonForm({
-  initLesson,
-  create = true,
-  courseId
-}) {
+export default function LessonEditor({ initLesson, create = true, courseId }) {
   const [name, setName] = useState(initLesson?.name || "");
   const [theory, setTheory] = useState(initLesson?.theory || "");
   const [lessonId, setLessonId] = useState(initLesson?.id || null); // Để kiểm tra nếu có id thì đang update
@@ -74,7 +70,7 @@ export default function LessonForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className={cx("card")}>
+    <form onSubmit={() => handleSubmit()} className={cx("card")}>
       <Input
         placeholder="Tên bài học"
         value={name}
@@ -83,7 +79,7 @@ export default function LessonForm({
       <RichTextEditor
         value={theory}
         label="Nội dung bài học"
-        onChange={handleTheoryChange}
+        onChange={(value) => handleTheoryChange(value)}
       />
       <Button
         primary

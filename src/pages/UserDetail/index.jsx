@@ -133,7 +133,7 @@ export default function UserDetail() {
       .then((response) => response.json())
       .then((data) => {
         if (data.code === 200) {
-          setUser({ ...user, friend: true});
+          setUser({ ...user, friend: true });
           toast.success("Đã trở thành bạn bè!");
         } else {
           toast.error(data.message);
@@ -364,7 +364,7 @@ export default function UserDetail() {
           <h2>Bài kiểm tra đã tạo</h2>
           <ViewMore
             url={`${BACKEND_BASE_URL}/api/users/${id}/quizzes/created`}
-            render={(quiz, index) => <QuizInfo key={index} quiz={quiz.quiz} />}
+            render={(quiz) => <QuizInfo quiz={quiz} key={quiz.id} />}
           />
 
           <h2>Bài kiểm tra đã chơi</h2>

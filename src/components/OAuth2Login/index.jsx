@@ -37,7 +37,6 @@ export default function OAuth2Login() {
       <Button
         className={cx("login-github-btn")}
         large
-        disable
         leftIcon={<FontAwesomeIcon icon={faGithub} />}
         onClick={(e) => handleOAuthLogin(e, "github")}
       >

@@ -134,7 +134,12 @@ export const publicRoutes = [
     layout: DefaultLayout,
   },
   {
-    path: "/chat/:targetUserId",
+    path: "/chat",
+    component: ChatPage,
+    layout: DefaultLayout,
+  },
+  {
+    path: "/chat/:id",
     component: ChatPage,
     layout: DefaultLayout,
   },

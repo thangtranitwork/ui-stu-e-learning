@@ -17,7 +17,8 @@ const cx = classNames.bind(styles);
 export default function Courses() {
   const [hottestCourses, setHottestCourses] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-
+  const [tab, setTab] = useState(0); //0: mới nhất, 1:của bạn, 2: đã học
+  const userId = localStorage.getItem("userId");
   useEffect(() => {
     document.title = "Khoá học";
   }, []);
@@ -58,13 +59,16 @@ export default function Courses() {
     <div className={cx("courses-container")}>
       <div className={cx("header")}>
         <div className={cx("left-buttons")}>
+          <Button rounded outline onClick={() => setTab(0)}>
+            Khoá mới nhất
+          </Button>
           {localStorage.getItem("scope") &&
             localStorage.getItem("scope").includes("CONTRIBUTOR") && (
-              <Button rounded outline>
+              <Button rounded outline onClick={() => setTab(1)}>
                 Khoá của bạn
               </Button>
             )}
-          <Button rounded outline>
+          <Button rounded outline onClick={() => setTab(2)}>
             Khoá đã học
           </Button>
         </div>
@@ -93,7 +97,7 @@ export default function Courses() {
         </div>
       </div>
       <div className={cx("content")}>
-        <div className={cx("hottest-courses")}>
+        <div className={cx("right")}>
           <h2>Khóa học nổi bật nhất 🔥</h2>
           <div className={cx("courses-list")}>
             {hottestCourses.map((course) => (
@@ -101,16 +105,46 @@ export default function Courses() {
             ))}
           </div>
         </div>
-        <div className={cx("normal-courses")}>
-          <h2>Khoá học mới nhất</h2>
-          <div className={cx("courses-list")}>
-            <Pagination
-              searchQuery={`name=${searchQuery}`}
-              render={(course) => <Course course={course} key={course.id} />}
-              url={`${BACKEND_BASE_URL}/api/courses/search`}
-            />
+        {tab === 0 && (
+          <div className={cx("left")}>
+            <h2>Khoá học mới nhất</h2>
+            <div className={cx("courses-list")}>
+              <Pagination
+                searchQuery={`name=${searchQuery}`}
+                render={(course) => <Course course={course} key={course.id} />}
+                url={`${BACKEND_BASE_URL}/api/courses/search`}
+              />
+            </div>
           </div>
-        </div>
+        )}
+
+        {tab === 1 && (
+          <div className={cx("left")}>
+            <h2>Khoá học của bạn</h2>
+            <div className={cx("courses-list")}>
+              <Pagination
+                render={(course, index) => (
+                  <Course key={index} course={course} />
+                )}
+                url={`${BACKEND_BASE_URL}/api/users/${userId}/courses/created`}
+              />
+            </div>
+          </div>
+        )}
+
+        {tab === 2 && (
+          <div className={cx("left")}>
+            <h2>Khoá học đã học</h2>
+            <div className={cx("courses-list")}>
+              <Pagination
+                render={(course, index) => (
+                  <Course key={index} course={course} />
+                )}
+                url={`${BACKEND_BASE_URL}/api/users/${userId}/courses/learned`}
+              />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

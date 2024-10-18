@@ -1,0 +1,8 @@
+.wrapper {
+  margin: 0px 5vw;
+  display: flex;
+  gap: 20px;
+  .right, .left {
+    flex: 5;
+  }
+}

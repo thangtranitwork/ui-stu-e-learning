@@ -12,8 +12,8 @@
 }
 
 .logo {
-  width: 100px; 
-  height: 30px; 
+  width: 100px;
+  height: 30px;
   margin-right: 30px;
   background-color: white;
   background-image: url("http://res.cloudinary.com/dw7hrsbba/image/upload/v1722013750/logo_stu.jpg");
@@ -86,4 +86,15 @@
   .toggler:checked ~ .menu {
     max-height: 100%;
   }
+}
+
+.not-read-counter {
+  background-color: red;
+  color: white;
+  padding: 0px 10px;
+  border-radius: 999px;
+  z-index: 999;
+  position: relative;
+  top: -10px;
+  right: 10px;
 }

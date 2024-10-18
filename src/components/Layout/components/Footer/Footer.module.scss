@@ -1,0 +1,30 @@
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: var(--primary);
+  color: var(--white);
+
+  a {
+    color: var(--white);
+  }
+
+  .contact {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .column {
+    flex: 1;
+    padding: 10px;
+  }
+
+  // Media query cho mobile
+  @media (max-width: 768px) {
+    flex-direction: column;
+    .column {
+      width: 100%; // Đặt width 100% để mỗi cột chiếm toàn bộ chiều rộng trên mobile
+      padding: 10px 0;
+    }
+  }
+}

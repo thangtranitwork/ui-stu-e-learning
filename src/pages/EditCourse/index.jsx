@@ -209,7 +209,7 @@ export default function EditCourse() {
         <RichTextEditor
           value={course.introduction}
           className={styles.textarea}
-          onChange={handleRichTextChange}
+          onChange={(value) => handleRichTextChange(value)}
           label="Giới thiệu"
         />
         <Button primary large type="submit" className={styles.submitButton}>

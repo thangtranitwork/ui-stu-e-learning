@@ -10,7 +10,7 @@ import { useState } from "react";
 import UserSearch from "../../components/UserSearch";
 export default function Friends() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [tab, setTab] = useState(0); //0: bạn bè, 1: tìm bạn
+  const [tab, setTab] = useState(0); //0: bạn bè, 1: tìm bạn, 2: lời mời đã gửi, 3: lời mời đã nhận
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
@@ -29,6 +29,12 @@ export default function Friends() {
           <Button rounded outline onClick={() => setTab(1)}>
             Kết bạn
           </Button>
+          <Button rounded outline onClick={() => setTab(2)}>
+            Lời mời đã nhận
+          </Button>
+          <Button rounded outline onClick={() => setTab(3)}>
+            Lời mời đã gửi
+          </Button>
         </div>
         <div className={cx("right-buttons")}>
           <form onSubmit={handleSearchSubmit} className={cx("search-form")}>
@@ -43,7 +49,7 @@ export default function Friends() {
           </form>
         </div>
       </div>
-      {tab === 0 ? (
+      {tab === 0 && (
         <div className={cx("your-friends")}>
           <h2>Bạn của bạn</h2>
           <div className={cx("friends-list")}>
@@ -57,9 +63,10 @@ export default function Friends() {
             />
           </div>
         </div>
-      ) : (
+      )}
+      {tab === 1 && (
         <div className={cx("your-friends")}>
-          <h2>Bạn của bạn</h2>
+          <h2>Tìm kiếm</h2>
           <div className={cx("friends-list")}>
             <Pagination
               searchQuery={`name=${searchQuery}`}
@@ -67,6 +74,38 @@ export default function Friends() {
                 <UserSearch key={user.id} user={user}></UserSearch>
               )}
               url={`${BACKEND_BASE_URL}/api/users/search`}
+              attachToken
+            />
+          </div>
+        </div>
+      )}
+
+      {tab === 2 && (
+        <div className={cx("your-friends")}>
+          <h2>Lời mời đã nhận</h2>
+          <div className={cx("friends-list")}>
+            <Pagination
+              //searchQuery={`name=${searchQuery}`}
+              render={(user) => (
+                <UserSearch key={user.id} user={user}></UserSearch>
+              )}
+              url={`${BACKEND_BASE_URL}/api/friendship/invitationReceived`}
+              attachToken
+            />
+          </div>
+        </div>
+      )}
+
+      {tab === 3 && (
+        <div className={cx("your-friends")}>
+          <h2>Lời mời đã nhận</h2>
+          <div className={cx("friends-list")}>
+            <Pagination
+              //searchQuery={`name=${searchQuery}`}
+              render={(user) => (
+                <UserSearch key={user.id} user={user}></UserSearch>
+              )}
+              url={`${BACKEND_BASE_URL}/api/friendship/invitationSend`}
               attachToken
             />
           </div>

@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./Post.module.scss";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import { BACKEND_BASE_URL } from "../../constant";
 import UserInfo from "../../components/UserInfo";
@@ -11,6 +11,7 @@ import {
   faHeart,
   faPaperPlane,
   faShare,
+  faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 import TimeDisplay from "../../components/TimeDisplay";
 import { getToken } from "../../App";
@@ -19,13 +20,16 @@ import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
 import { toast } from "react-toastify";
 import Comment from "../../components/Comment";
+import Popup from "../../components/Popup";
 export default function Post() {
   const cx = classNames.bind(styles);
   const { postId } = useParams();
   const [post, setPost] = useState();
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
-  
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const navigate = useNavigate();
+
   const setupWebSocket = useCallback((pId) => {
     const socket = new SockJS(`${BACKEND_BASE_URL}/ws`);
     const client = Stomp.over(socket);
@@ -193,11 +197,40 @@ export default function Post() {
       });
     } catch {}
   };
+
+  const handleDelete = async () => {
+    try {
+      const token = getToken();
+      const headers = {
+        "Content-Type": "application/json",
+      };
+
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+
+      const response = await fetch(
+        `${BACKEND_BASE_URL}/api/posts/${postId}/delete`,
+        {
+          method: "DELETE",
+          headers: headers,
+        }
+      );
+      const data = await response.json();
+      if (data.code === 200) {
+        navigate("/posts");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.error("Error deleteing post:", error);
+    }
+  };
+
   return (
     <div className={cx("wrapper")}>
-      <h2>
-        {post?.title} <UserInfo user={post?.creator}></UserInfo>
-      </h2>
+      <UserInfo user={post?.creator}></UserInfo>
+      <h2>{post?.title}</h2>
       <div
         className={cx("content")}
         dangerouslySetInnerHTML={{ __html: post?.content }}
@@ -213,6 +246,22 @@ export default function Post() {
         >
           {post?.likeCount}
         </Button>
+        <Popup
+          title={"Xác nhận"}
+          onClose={() => setIsPopupOpen(false)}
+          isOpen={isPopupOpen}
+        >
+          <Button primary onClick={() => setIsPopupOpen(false)}>
+            Hủy
+          </Button>
+          <Button
+            secondary
+            onClick={handleDelete}
+            rightIcon={<FontAwesomeIcon icon={faTrashCan} />}
+          >
+            Xóa
+          </Button>
+        </Popup>
         <Button
           className={cx("share-btn")}
           primary
@@ -221,6 +270,15 @@ export default function Post() {
         >
           Chia sẻ
         </Button>
+        {localStorage.getItem("userId") === post?.creator.id && (
+          <Button
+            danger
+            className={cx("delete-btn")}
+            onClick={() => setIsPopupOpen(true)}
+          >
+            <FontAwesomeIcon icon={faTrashCan} />
+          </Button>
+        )}
       </div>
       <form onSubmit={handleComment}>
         <Input

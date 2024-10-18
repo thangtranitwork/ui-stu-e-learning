@@ -1,0 +1,44 @@
+.chat-container {
+  height: 80vh;
+  width: 80vw;
+  margin: 0 auto;
+  background-color: white;
+  padding: 10px;
+  .user {
+    float: none;
+  }
+  .phone-call-btn {
+    float: inline-end;
+  }
+  .history-container {
+    overflow-y: scroll;
+    height: 55vh;
+    margin: 10px 0px;
+  }
+  .text {
+    width: 80%;
+    float: inline-end;
+  }
+  .form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    .image {
+      input {
+        display: none;
+      }
+    }
+    .input-icons {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      .icon {
+        font-size: x-large;
+        padding: 20px 10px 25px;
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+}

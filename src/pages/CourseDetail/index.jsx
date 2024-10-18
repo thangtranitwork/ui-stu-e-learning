@@ -13,6 +13,7 @@ import {
   faBasketShopping,
   faBook,
   faPlay,
+  faTrashCan,
   faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
 import ReviewInput from "../../components/ReviewInput";
@@ -22,6 +23,8 @@ import { toast } from "react-toastify";
 import Pagination from "../../components/Pagination";
 import Review from "../../components/Review";
 import { getToken } from "../../App";
+import Popup from "../../components/Popup";
+import NumberDisplay from "../../components/NumberDisplay";
 
 const cx = classNames.bind(styles);
 
@@ -29,8 +32,7 @@ export default function CourseDetail() {
   const { courseId } = useParams();
   const navigate = useNavigate();
   const [course, setCourse] = useState(null);
-  console.log(course);
-  
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   useEffect(() => {
     const fetchCourse = async () => {
       try {
@@ -126,6 +128,35 @@ export default function CourseDetail() {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const token = getToken();
+      const headers = {
+        "Content-Type": "application/json",
+      };
+
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+
+      const response = await fetch(
+        `${BACKEND_BASE_URL}/api/courses/${courseId}/delete`,
+        {
+          method: "DELETE",
+          headers: headers,
+        }
+      );
+      const data = await response.json();
+      if (data.code === 200) {
+        navigate("/courses");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.error("Error deleteing course:", error);
+    }
+  };
+
   const handleContinue = async () => {
     try {
       const token = getToken();
@@ -171,8 +202,9 @@ export default function CourseDetail() {
       <p className={cx("course-description")}>{course.description}</p>
       <div className={cx("course-info")}>
         <div className={cx("course-price")}>
-          <h3>Giá:</h3>
-          <p>{course.price} VND</p>
+          <h3>
+            Giá: <NumberDisplay value={course.price}/> VND
+          </h3>
         </div>
         <div className={cx("course-lessons")}>
           <p>
@@ -221,11 +253,31 @@ export default function CourseDetail() {
         </div>
       )}
       {localStorage.getItem("userId") === course.creator.id && (
-        <Button secondary to={`edit`}>
-          Chỉnh sửa khóa học
-        </Button>
+        <>
+          <Button secondary to={`edit`}>
+            Chỉnh sửa khóa học
+          </Button>
+          <Popup
+            title={"Xác nhận"}
+            onClose={() => setIsPopupOpen(false)}
+            isOpen={isPopupOpen}
+          >
+            <Button primary onClick={() => setIsPopupOpen(false)}>
+              Hủy
+            </Button>
+            <Button
+              secondary
+              onClick={handleDelete}
+              rightIcon={<FontAwesomeIcon icon={faTrashCan} />}
+            >
+              Xóa
+            </Button>
+          </Popup>
+          <Button danger onClick={() => setIsPopupOpen(true)}>
+            <FontAwesomeIcon icon={faTrashCan} />
+          </Button>
+        </>
       )}
-
       <div>
         <h3>Giới thiệu</h3>
         <div

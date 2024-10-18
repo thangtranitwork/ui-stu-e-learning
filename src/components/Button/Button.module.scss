@@ -5,17 +5,18 @@
 }
 
 .wrapper {
+  height: 40px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   justify-items: center;
+  border: none;
   min-width: 100px;
   padding: var(--padding-small);
   border-radius: var(--border-radius);
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  border: 2px solid transparent;
   user-select: none;
   transition: all 0.3s ease;
   margin-top: 5px;
@@ -23,7 +24,6 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
-
 }
 
 .rounded {
@@ -52,15 +52,18 @@
   color: var(--white);
 }
 
-.primary, .secondary {
-  padding: var(--padding-small); /* Hoặc var(--padding-large) nếu bạn muốn lớn hơn */
+.primary,
+.secondary {
+  padding: var(
+    --padding-small
+  ); /* Hoặc var(--padding-large) nếu bạn muốn lớn hơn */
 }
-
 
 .outline {
   background-color: var(--white);
   color: var(--black);
-  border-color: var(--primary);
+  border: 2px solid var(--primary);
+
   &:hover {
     background-color: var(--primary);
     color: var(--white);
@@ -98,8 +101,13 @@
 
 .scaleHoverAnimation {
   font-size: 1rem;
-  &:hover{
+  &:hover {
     transform: scale(1.5);
     box-shadow: none;
-  }  
+  }
+}
+
+.danger {
+  background-color: var(--danger);
+  color: var(--white);
 }

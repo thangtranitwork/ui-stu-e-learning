@@ -67,11 +67,9 @@ export default function Pagination({
           }
         );
 
-        const data = await response.json();
-        console.warn(data);
-        
+        const data = await response.json();        
         setCurrentPageData(data.body.content);
-        setTotalPages(data.body.totalPages || 1);
+        setTotalPages(data.body.totalPages || data.body.page.totalPages || 1);
       } catch (error) {
         console.error("Error fetching page data:", error);
       }

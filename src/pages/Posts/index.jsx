@@ -24,6 +24,8 @@ export default function Posts() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isCreateNewPostPopupOpen, setIsCreateNewPostOpen] = useState(false);
   const [posts, setPosts] = useState([]);
+  const [tab, setTab] = useState(0); //0: mới nhất, 1: của bạn, 2: đã thích
+  const userId = localStorage.getItem("userId");
   useEffect(() => {
     document.title = "Thảo luận";
     const socket = new SockJS(`${BACKEND_BASE_URL}/ws`);
@@ -75,12 +77,19 @@ export default function Posts() {
     <div className={cx("posts-container")}>
       <div className={cx("header")}>
         <div className={cx("left-buttons")}>
-          <Button rounded outline>
-            Bài viết của bạn
+          <Button rounded outline onClick={() => setTab(0)}>
+            Bài viết mới nhất
           </Button>
-          {/* <Button rounded outline>
-            Khoá đã học
-          </Button> */}
+          {userId && (
+            <>
+              <Button rounded outline onClick={() => setTab(1)}>
+                Bài viết của bạn
+              </Button>
+              <Button rounded outline onClick={() => setTab(2)}>
+                Bài viết đã thích
+              </Button>
+            </>
+          )}
         </div>
         <div className={cx("right-buttons")}>
           <form onSubmit={handleSearchSubmit} className={cx("search-form")}>
@@ -112,7 +121,7 @@ export default function Posts() {
         <PostCreate onClose={() => setIsCreateNewPostOpen(false)} />
       </Popup>
       <div className={cx("content")}>
-        <div className={cx("hottest-posts")}>
+        <div className={cx("right")}>
           <h2>Bài viết nổi bật nhất 🔥</h2>
           <div className={cx("posts-list")}>
             {hottestPosts.map((post) => (
@@ -120,19 +129,51 @@ export default function Posts() {
             ))}
           </div>
         </div>
-        <div className={cx("normal-posts")}>
-          <h2>Bài viết mới nhất</h2>
-          <div className={cx("posts-list")}>
-            {posts?.map((post) => (
-              <PostSearch post={post} key={post.id} />
-            ))}
-            <Pagination
-              searchQuery={`name=${searchQuery}`}
-              render={(post) => <PostSearch post={post} key={post.id} />}
-              url={`${BACKEND_BASE_URL}/api/posts/search`}
-            />
+        {tab === 0 && (
+          <div className={cx("left")}>
+            <h2>Bài viết mới nhất</h2>
+            <div className={cx("posts-list")}>
+              {posts?.map((post) => (
+                <PostSearch post={post} key={post.id} />
+              ))}
+              <Pagination
+                searchQuery={`name=${searchQuery}`}
+                render={(post) => <PostSearch post={post} key={post.id} />}
+                url={`${BACKEND_BASE_URL}/api/posts/search`}
+              />
+            </div>
           </div>
-        </div>
+        )}
+        {tab === 1 && (
+          <div className={cx("left")}>
+            <h2>Bài viết đã đăng</h2>
+            <div className={cx("posts-list")}>
+              {posts?.map((post) => (
+                <PostSearch post={post} key={post.id} />
+              ))}
+              <Pagination
+                render={(post) => <PostSearch post={post} key={post.id} />}
+                url={`${BACKEND_BASE_URL}/api/posts/created`}
+                attachToken
+              />
+            </div>
+          </div>
+        )}
+        {tab === 2 && (
+          <div className={cx("left")}>
+            <h2>Bài viết đã thích</h2>
+            <div className={cx("posts-list")}>
+              {posts?.map((post) => (
+                <PostSearch post={post} key={post.id} />
+              ))}
+              <Pagination
+                render={(post) => <PostSearch post={post} key={post.id} />}
+                url={`${BACKEND_BASE_URL}/api/posts/liked`}
+                attachToken
+              />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

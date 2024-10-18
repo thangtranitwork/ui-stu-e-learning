@@ -40,7 +40,7 @@ const UserInfo = ({ user, className }) => {
 
 export default UserInfo;
 
-export function UserAvartarOnly ({ user, className }) {
+export function UserAvartarOnly({ user, className }) {
   const cx = classNames.bind(styles);
   const navigate = useNavigate();
 
@@ -66,5 +66,4 @@ export function UserAvartarOnly ({ user, className }) {
       </span>
     </span>
   );
-};
-
+}

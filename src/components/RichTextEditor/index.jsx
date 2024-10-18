@@ -14,7 +14,6 @@ export default function RichTextEditor({
   ...props
 }) {
   const [isFocused, setIsFocused] = useState(false);
-
   const handleFocus = () => setIsFocused(true);
   const handleBlur = () => setIsFocused(value !== "");
 

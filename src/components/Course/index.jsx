@@ -6,6 +6,7 @@ import Star from "../Star";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCoins, faRankingStar } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import NumberDisplay from "../NumberDisplay";
 
 const cx = classNames.bind(styles);
 
@@ -21,7 +22,7 @@ const Course = ({ course, hot = false, reviewMode = false }) => {
         <span className={cx("icon")}>
           <FontAwesomeIcon icon={faCoins} />
         </span>{" "}
-        {course.price} VND
+        <NumberDisplay value={course.price}/> VND
       </p>
       <p className={cx("course-star")}>
         <span className={cx("icon")}>

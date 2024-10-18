@@ -1,39 +1,65 @@
-.chat-container {
-  height: 80vh;
-  width: 80vw;
-  margin: 0 auto;
-  background-color: white;
-  padding: 10px;
-  .user {
-    float: none;
-  }
-  .phone-call-btn {
-    float: inline-end;
-  }
-  .history-container {
-    overflow-y: scroll;
-    height: 55vh;
-    margin: 10px 0px;
-  }
-  .text {
-    width: 80%;
-    float: inline-end;
-  }
-  .form {
+.wrapper {
+  display: flex;
+  justify-content: center; // Căn giữa theo chiều ngang
+  align-items: center; // Căn giữa theo chiều dọc
+  height: 85vh;
+  .add-friend {
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    .image {
-      input {
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+  }
+
+  .chat-list {
+    flex: 3;
+    background-color: white;
+    max-height: 80vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    .chat {
+      &:hover {
+        background-color: var(--secondary);
+      }
+    }
+
+    .active {
+      background-color: var(--secondary);
+      user-select: none;
+    }
+
+    .user {
+      float: none;
+    }
+
+    .red {
+      background-color: red;
+      color: white;
+      padding: 0px 10px;
+      border-radius: 999px;
+    }
+
+    .message {
+      margin-left: 60px;
+      font-style: italic;
+      cursor: pointer;
+    }
+  }
+
+  .chat-container {
+    flex: 7;
+  }
+
+  // Media query cho mobile
+  @media (max-width: 768px) {
+    .chat-list {
+      flex: 3;
+      .message {
         display: none;
       }
     }
-    .icon {
-      font-size: x-large;
-      padding: 20px 10px 25px;
-      &:hover {
-        transform: scale(1.1);
-      }
+
+    .chat-container {
+      flex: 7;
     }
   }
 }
