@@ -1,139 +1,73 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import Button from "../Button";
-import classNames from "classnames/bind";
-import styles from "./UpdateEmail.module.scss";
+import Input from "../Input";
 import { BACKEND_BASE_URL } from "../../constant";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faXmark, faEnvelope, faShieldHalved } from "@fortawesome/free-solid-svg-icons";
 import { getToken } from "../../App";
-
-const cx = classNames.bind(styles);
 
 export default function UpdateEmail({ onCancel }) {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
-  const [step, setStep] = useState(1); // Bắt đầu từ bước nhập OTP
+  const [step, setStep] = useState(1);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`${BACKEND_BASE_URL}/api/users/update/email`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.code === 200) {
-          toast.success("OTP đã được gửi tới email hiện tại của bạn.");
-          setStep(1); // Chuyển sang bước nhập OTP
-        } else {
-          toast.error(data.message);
-        }
-      })
-      .catch((err) => toast.error(err.message));
+    fetch(`${BACKEND_BASE_URL}/api/users/update/email`, { method: "GET", headers: { Authorization: `Bearer ${getToken()}` } })
+      .then(r => r.json()).then(data => { if (data.code === 200) { toast.success("OTP đã gửi."); setStep(1); } else toast.error(data.message); })
+      .catch(err => toast.error(err.message));
   }, []);
 
-  const handleVerifyOtp = () => {
+  const handleVerifyOtp = (e) => {
+    e.preventDefault();
     fetch(`${BACKEND_BASE_URL}/api/users/update/email/verify-otp`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
-      },
-      body: JSON.stringify({ otp }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.code === 200) {
-          if (data.body.success) {
-            toast.success("Xác minh OTP thành công.");
-            setStep(2);
-          } else {
-            toast.error(
-              `OTP không chính xác bạn còn ${data.body.remaining} lần thử`
-            );
-          }
-        } else {
-          toast.error(data.message);
-        }
-      })
-      .catch((err) => toast.error(err.message));
+      method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${getToken()}` }, body: JSON.stringify({ otp }),
+    }).then(r => r.json()).then(data => {
+      if (data.code === 200) { if (data.body.success) { toast.success("OTP xác nhận thành công."); setStep(2); } else toast.error(`OTP sai! Còn ${data.body.remaining} lần`); }
+      else toast.error(data.message);
+    });
   };
 
-  const handleChangeEmail = () => {
+  const handleChangeEmail = (e) => {
+    e.preventDefault();
     fetch(`${BACKEND_BASE_URL}/api/users/update/email`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
-      },
-      body: JSON.stringify({ email }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.code === 200) {
-          toast.success(
-            "Đổi email thành công. Email xác thực đã được gửi tới email mới của bạn, bạn sẽ bị đăng xuất sau 3s."
-          );
-          setTimeout(() => {
-            navigate("/logout");
-          }, 3000);
-        } else {
-          toast.error(data.message);
-        }
-      })
-      .catch((err) => toast.error(err.message));
-  };
-
-  const handleBack = () => {
-    setStep((prevStep) => Math.max(prevStep - 1, 1)); 
+      method: "PUT", headers: { "Content-Type": "application/json", Authorization: `Bearer ${getToken()}` }, body: JSON.stringify({ email }),
+    }).then(r => r.json()).then(data => {
+      if (data.code === 200) { toast.success("Đổi email thành công!"); setTimeout(() => navigate("/logout"), 3000); }
+      else toast.error(data.message);
+    });
   };
 
   return (
-    <div className={cx("update-email-container")}>
-      <div className={cx("header")}>
-        <h2>
-          Thay đổi email <span>{step}/2</span> {/* Hiển thị bước hiện tại */}
-        </h2>
-        <Button noBackground small className={cx("close-icon")} onClick={onCancel} scaleHoverAnimation>
-          {<FontAwesomeIcon icon={faXmark} />}
-        </Button>
+    <div className="bg-[#141420] border border-white/10 rounded-2xl p-6 mt-4 animate-[slideUp_0.25s_ease]">
+      <div className="flex items-center justify-between mb-5">
+        <div>
+          <h3 className="text-lg font-bold text-white">Đổi email</h3>
+          <p className="text-xs text-slate-500 mt-0.5">Bước {step}/2 — {step === 1 ? "Xác minh OTP" : "Email mới"}</p>
+        </div>
+        <button onClick={onCancel} className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-all cursor-pointer bg-transparent border-none">
+          <FontAwesomeIcon icon={faXmark} />
+        </button>
+      </div>
+      {/* Progress */}
+      <div className="flex gap-2 mb-5">
+        <div className={`flex-1 h-1 rounded-full transition-all ${step >= 1 ? "bg-indigo-600" : "bg-white/10"}`}></div>
+        <div className={`flex-1 h-1 rounded-full transition-all ${step >= 2 ? "bg-indigo-600" : "bg-white/10"}`}></div>
       </div>
       {step === 1 && (
-        <div>
-          <input
-            type="text"
-            placeholder="Enter OTP"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-            className={cx("input")}
-          />
-          <Button primary onClick={handleVerifyOtp}>Verify OTP</Button>
-        </div>
+        <form onSubmit={handleVerifyOtp} className="space-y-4">
+          <Input type="text" placeholder="Nhập OTP" icon={<FontAwesomeIcon icon={faShieldHalved} />} value={otp} onChange={(e) => setOtp(e.target.value)} />
+          <Button primary type="submit" className="w-full">Xác nhận OTP</Button>
+        </form>
       )}
       {step === 2 && (
-        <div>
-          <input
-            type="email"
-            placeholder="New Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className={cx("input")}
-          />
-          <Button primary onClick={handleChangeEmail}>Change Email</Button>
-        </div>
+        <form onSubmit={handleChangeEmail} className="space-y-4">
+          <Input type="email" placeholder="Email mới" icon={<FontAwesomeIcon icon={faEnvelope} />} value={email} onChange={(e) => setEmail(e.target.value)} />
+          <Button primary type="submit" className="w-full">Đổi email</Button>
+        </form>
       )}
-      <Button
-        secondary
-        onClick={handleBack}
-        className={cx("back-button")}
-        disabled={step === 1} // Vô hiệu hóa nút Back khi ở step 1
-      >
-        Back
-      </Button>
     </div>
   );
 }

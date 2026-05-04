@@ -1,39 +1,24 @@
 import React from "react";
-import classNames from "classnames/bind";
 import { useNavigate } from "react-router-dom";
-import styles from "./UserSearch.module.scss";
 import { DEFAULT_AVATAR_URL } from "../../constant";
 
 const UserSearch = ({ user }) => {
-  const cx = classNames.bind(styles);
   const navigate = useNavigate();
-
-  // Kiểm tra người dùng có online hay không
   const isUserOnline = () => {
     if (!user?.lastOnline) return false;
-    const lastOnlineDate = new Date(user.lastOnline);
-    return Date.now() < lastOnlineDate.getTime();
+    return Date.now() < new Date(user.lastOnline).getTime();
   };
 
   return (
-    <div
-      className={cx("user-info-link")}
-      onClick={() => navigate(`/users/${user?.id}`)}
-    >
-      <div className={cx("user-info")}>
-        <img
-          className={cx("user-info-avatar")}
-          src={user?.avatar || DEFAULT_AVATAR_URL}
-          alt={`${user?.lastname} ${user?.firstname}`}
-        />
-        {/* Hiển thị online circle nếu người dùng đang online */}
-        {isUserOnline() && <p className={cx("online-circle")}></p>}
-        <span className={cx("user-info-name")}>
-          {localStorage.getItem("userId") === String(user?.id)
-            ? "Bạn"
-            : user?.lastname + " " + user?.firstname}
-        </span>
+    <div onClick={() => navigate(`/users/${user?.id}`)}
+      className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-white/10 hover:bg-white/[0.08] transition-all cursor-pointer">
+      <div className="relative flex-shrink-0">
+        <img className="w-11 h-11 rounded-full object-cover ring-2 ring-white/10" src={user?.avatar || DEFAULT_AVATAR_URL} alt={`${user?.lastname}`} />
+        {isUserOnline() && <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full ring-2 ring-[#0a0a0a]"></span>}
       </div>
+      <span className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
+        {localStorage.getItem("userId") === String(user?.id) ? "Bạn" : `${user?.lastname} ${user?.firstname}`}
+      </span>
     </div>
   );
 };

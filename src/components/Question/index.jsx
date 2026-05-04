@@ -1,39 +1,19 @@
 import React from "react";
 import Answer from "./Answer";
-import styles from "./Question.module.scss";
-import classNames from "classnames/bind";
-
-const cx = classNames.bind(styles);
 
 const Question = ({ question, onAnswerSelect, quizResults, isQuizSubmitted }) => {
   const result = quizResults?.find((res) => res.id === question.id);
 
-  const cardClass = cx({
-    "question-card": true,
-    "b-shadow": true,
-  });
-
   return (
-    <div className={cardClass}>
-      <h3 className={cx("question-title")}>{question.text}</h3>
-      <div className={cx("answers-container", {
-        "two-answers": question.answers.length === 2,
-        "three-answers": question.answers.length === 3,
-      })}>
+    <div className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
+      <h3 className="text-lg font-bold text-white">{question.text}</h3>
+      <div className={`grid gap-3 ${question.answers.length === 2 ? "grid-cols-2" : "grid-cols-2"}`}>
         {question.answers.map((answer, index) => {
           const isCorrect = answer.id === result?.correctId;
           const isChosen = answer.id === result?.chosenId;
-
           return (
-            <Answer
-              key={answer.id}
-              answer={answer}
-              isCorrect={isCorrect}
-              isChosen={isChosen}
-              onAnswerSelect={onAnswerSelect}
-              isDisabled={isQuizSubmitted}
-              index={index} // Truyền index vào Answer
-            />
+            <Answer key={answer.id} answer={answer} isCorrect={isCorrect} isChosen={isChosen}
+              onAnswerSelect={onAnswerSelect} isDisabled={isQuizSubmitted} index={index} />
           );
         })}
       </div>

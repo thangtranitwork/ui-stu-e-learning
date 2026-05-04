@@ -1,47 +1,24 @@
 import React, { useEffect, useState } from "react";
-import styles from "./Timer.module.scss";
 
 const Timer = ({ duration, remainingTime, onTimeout }) => {
   const [time, setTime] = useState(remainingTime || duration);
 
+  useEffect(() => { setTime(remainingTime || duration); }, [remainingTime, duration]);
+  useEffect(() => { if (time === 0 && onTimeout) onTimeout(); }, [time, onTimeout]);
   useEffect(() => {
-    // Nếu remainingTime được thay đổi, cập nhật lại time
-    setTime(remainingTime || duration);
-  }, [remainingTime, duration]);
-
-  useEffect(() => {
-    if (time === 0 && onTimeout) {
-      onTimeout();
-    }
-  }, [time, onTimeout]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTime((prevTime) => Math.max(prevTime - 1, 0));
-    }, 1000);
-
+    const interval = setInterval(() => setTime(prev => Math.max(prev - 1, 0)), 1000);
     return () => clearInterval(interval);
   }, []);
 
   const percentage = (time / (duration * 60)) * 100;
-  
-  const gradientColor = percentage > 66 ? 'green' : (percentage > 33) ? 'orange': 'red';
-
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-  };
+  const color = percentage > 66 ? "#22c55e" : percentage > 33 ? "#f59e0b" : "#ef4444";
+  const formatTime = (s) => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
 
   return (
-    <div
-      className={styles.circle}
-      style={{
-        background: `conic-gradient(${gradientColor} ${percentage * 3.6}deg, #ffffff 0deg)`
-      }}
-    >
-      <div className={styles.innerCircle}>
-        <span className={styles.timeText}>{formatTime(time)}</span>
+    <div className="relative w-20 h-20 rounded-full flex items-center justify-center"
+      style={{ background: `conic-gradient(${color} ${percentage * 3.6}deg, rgba(255,255,255,0.1) 0deg)` }}>
+      <div className="w-16 h-16 rounded-full bg-[#0a0a0a] flex items-center justify-center">
+        <span className="text-sm font-bold text-white">{formatTime(time)}</span>
       </div>
     </div>
   );
