@@ -1,12 +1,8 @@
 import React, { useState } from "react";
-import classNames from "classnames/bind";
-import styles from "./Input.module.scss";
-
-const cx = classNames.bind(styles);
 
 export default function Input({
   icon,
-  actionIcon, // Prop cho icon hành động nằm phía bên phải
+  actionIcon,
   placeholder,
   value,
   small = false,
@@ -14,8 +10,9 @@ export default function Input({
   full = false,
   onChange,
   type = "text",
-  otherClass,
-  onActionIconClick, // Xử lý khi click vào icon hành động
+  otherClass = "",
+  onActionIconClick,
+  className = "",
   ...props
 }) {
   const [isFocused, setIsFocused] = useState(false);
@@ -23,33 +20,53 @@ export default function Input({
   const handleFocus = () => setIsFocused(true);
   const handleBlur = () => setIsFocused(value !== "");
 
+  const hasValue = value !== undefined && value !== "";
+  const isActive = isFocused || hasValue || type === "date";
+
+  const height = small ? "h-10" : large ? "h-14" : "h-12";
+  const textSize = small ? "text-xs" : large ? "text-base" : "text-sm";
+  const widthClass = full ? "w-full" : "";
+  const focusRing = isActive
+    ? "border-indigo-500 ring-2 ring-indigo-500/20"
+    : "border-white/10 hover:border-white/20";
+
   return (
     <div
-      className={cx("input-wrapper", otherClass ,{
-        focused: isFocused || value || type === "date",
-        small,
-        large,
-        full,
-        
-      })}
+      className={`relative flex items-center gap-2.5 bg-white/5 rounded-xl px-4 border transition-all duration-200 ${height} ${focusRing} ${textSize} ${widthClass} ${otherClass} ${className}`}
     >
-      {icon && <span className={cx("icon")}>{icon}</span>}
-      <input
-        className={cx("input")}
-        type={type}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        onChange={onChange}
-        value={value}
-        {...props}
-      />
-      <label
-        className={cx("placeholder", { "date-placeholder": type === "date" })}
-      >
-        {placeholder}
-      </label>
+      {icon && (
+        <span className="text-slate-500 text-sm flex-shrink-0 w-5 text-center">
+          {icon}
+        </span>
+      )}
+
+      <div className="relative flex-1 h-full flex items-center">
+        <input
+          className={`w-full bg-transparent text-white outline-none border-none p-0 placeholder-transparent peer ${textSize}`}
+          type={type}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onChange={onChange}
+          value={value}
+          placeholder={placeholder}
+          {...props}
+        />
+        <label
+          className={`absolute left-0 transition-all duration-200 pointer-events-none origin-left
+            ${isActive
+              ? "-top-[22px] text-[11px] text-indigo-400 font-medium"
+              : "top-1/2 -translate-y-1/2 text-sm text-slate-500"
+            }`}
+        >
+          {placeholder}
+        </label>
+      </div>
+
       {actionIcon && (
-        <span className={cx("action-icon")} onClick={onActionIconClick}>
+        <span
+          className="text-slate-500 hover:text-indigo-400 cursor-pointer transition-colors flex-shrink-0"
+          onClick={onActionIconClick}
+        >
           {actionIcon}
         </span>
       )}

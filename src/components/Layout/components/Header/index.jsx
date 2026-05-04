@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import classNames from "classnames/bind";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styles from "./Header.module.scss";
+
 import { Link, useLocation } from "react-router-dom";
 import {
   faBars,
@@ -17,7 +16,6 @@ import { BACKEND_BASE_URL } from "../../../../constant";
 import { toast } from "react-toastify";
 
 const Header = () => {
-  const cx = classNames.bind(styles);
   const toggler = useRef();
   const location = useLocation(); // Sử dụng useLocation để lấy đường dẫn hiện tại
   const hasToken = getToken() !== null;
@@ -85,162 +83,70 @@ const Header = () => {
   }, []);
 
   return (
-    <header>
-      <nav className={cx("wrapper", "b-shadow")}>
-        <Link to="/">
-          <div className={cx("logo")}></div>
+    <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-black/60 backdrop-blur-xl transition-all duration-300 shadow-sm text-slate-100">
+      <div className="container mx-auto px-6 h-16 flex items-center justify-between">
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-2 group">
+          <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform">
+            STU
+          </div>
+          <span className="font-semibold text-lg tracking-tight hidden sm:block group-hover:text-indigo-400 transition-colors">E-Learning</span>
         </Link>
-        <input
-          type="checkbox"
-          id="toggler"
-          name="toggler"
-          ref={toggler}
-          className={cx("toggler")}
-        />
-        <label htmlFor="toggler" className={cx("label-toggler")}>
-          <FontAwesomeIcon icon={faBars} />
+
+        {/* Mobile Toggle */}
+        <input type="checkbox" id="toggler" ref={toggler} className="hidden peer" />
+        <label htmlFor="toggler" className="md:hidden cursor-pointer w-10 h-10 flex flex-col justify-center items-center gap-[5px] z-50">
+          <div className="w-6 h-[2px] bg-white rounded transition-transform origin-center peer-checked:rotate-45 peer-checked:translate-y-[7px]"></div>
+          <div className="w-6 h-[2px] bg-white rounded transition-opacity peer-checked:opacity-0"></div>
+          <div className="w-6 h-[2px] bg-white rounded transition-transform origin-center peer-checked:-rotate-45 peer-checked:-translate-y-[7px]"></div>
           {notReadMessagesCount > 0 && (
-            <span className={cx("not-read-counter")}>
-              <NumberDisplay value={notReadMessagesCount}></NumberDisplay>
+            <span className="absolute top-2 right-4 bg-red-500 text-xs font-bold px-1.5 rounded-full ring-2 ring-black">
+              {notReadMessagesCount}
             </span>
           )}
         </label>
-        <div className={cx("menu")}>
-          <div className={cx("list")}>
-            <li>
-              <Link
-                className={cx("item", { active: location.pathname === "/" })}
-                to="/"
-                onClick={handleLinkClick}
-              >
-                Trang chủ
-              </Link>
-            </li>
-            <li>
-              <Link
-                className={cx("item", {
-                  active: location.pathname === "/courses",
-                })}
-                to="/courses"
-                onClick={handleLinkClick}
-              >
-                Khoá học
-              </Link>
-            </li>
-            <li>
-              <Link
-                className={cx("item", {
-                  active: location.pathname === "/quizzes",
-                })}
-                to="/quizzes"
-                onClick={handleLinkClick}
-              >
-                Trắc nghiệm
-              </Link>
-            </li>
-            <li>
-              <Link
-                className={cx("item", {
-                  active: location.pathname === "/posts",
-                })}
-                to="/posts"
-                onClick={handleLinkClick}
-              >
-                Thảo luận
-              </Link>
-            </li>
-            {!hasToken && (
-              <React.Fragment>
-                <li>
-                  <Link
-                    className={cx("item", {
-                      active: location.pathname === "/register",
-                    })}
-                    to="/register"
-                  >
-                    Đăng ký
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className={cx("item", {
-                      active: location.pathname === "/login",
-                    })}
-                    to="/login"
-                  >
-                    Đăng nhập
-                  </Link>
-                </li>
-              </React.Fragment>
-            )}
-            {hasToken && (
-              <>
-                {localStorage.getItem("scope").includes("ADMIN") && (
-                  <li>
-                    <Link
-                      className={cx("item", "icon", {
-                        active: location.pathname === "/admin",
-                      })}
-                      to="/admin"
-                      onClick={handleLinkClick}
-                    >
-                      Quản lý
-                    </Link>
-                  </li>
+
+        {/* Navigation */}
+        <nav className="fixed inset-0 bg-black/95 flex flex-col items-center justify-center gap-6 opacity-0 pointer-events-none transition-opacity duration-300 peer-checked:opacity-100 peer-checked:pointer-events-auto md:static md:bg-transparent md:flex-row md:opacity-100 md:pointer-events-auto md:w-auto">
+          
+          <Link to="/" onClick={handleLinkClick} className={`text-sm font-medium transition-colors hover:text-indigo-400 ${location.pathname === "/" ? "text-indigo-400" : "text-slate-300"}`}>Trang chủ</Link>
+          <Link to="/courses" onClick={handleLinkClick} className={`text-sm font-medium transition-colors hover:text-indigo-400 ${location.pathname === "/courses" ? "text-indigo-400" : "text-slate-300"}`}>Khoá học</Link>
+          <Link to="/quizzes" onClick={handleLinkClick} className={`text-sm font-medium transition-colors hover:text-indigo-400 ${location.pathname === "/quizzes" ? "text-indigo-400" : "text-slate-300"}`}>Trắc nghiệm</Link>
+          <Link to="/posts" onClick={handleLinkClick} className={`text-sm font-medium transition-colors hover:text-indigo-400 ${location.pathname === "/posts" ? "text-indigo-400" : "text-slate-300"}`}>Thảo luận</Link>
+
+          {!hasToken ? (
+            <div className="flex flex-col md:flex-row items-center gap-4 mt-6 md:mt-0 md:ml-6 border-t md:border-t-0 md:border-l border-white/10 pt-6 md:pt-0 pl-0 md:pl-6">
+              <Link to="/login" onClick={handleLinkClick} className="text-sm font-medium text-slate-300 hover:text-white transition-colors">Đăng nhập</Link>
+              <Link to="/register" onClick={handleLinkClick} className="px-4 py-2 bg-white text-black text-sm font-semibold rounded-full hover:bg-slate-200 transition-colors shadow-lg">Đăng ký</Link>
+            </div>
+          ) : (
+            <div className="flex items-center gap-4 mt-6 md:mt-0 md:ml-6 border-t md:border-t-0 md:border-l border-white/10 pt-6 md:pt-0 pl-0 md:pl-6">
+              {localStorage.getItem("scope")?.includes("ADMIN") && (
+                <Link to="/admin" onClick={handleLinkClick} className="w-9 h-9 flex items-center justify-center rounded-full bg-white/5 hover:bg-indigo-500/20 text-slate-300 hover:text-indigo-400 transition-all">
+                  <span className="text-xs font-bold">A</span>
+                </Link>
+              )}
+              
+              <Link to="/chat" onClick={handleLinkClick} className="relative w-9 h-9 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white transition-all">
+                <FontAwesomeIcon icon={faMessage} />
+                {notReadMessagesCount > 0 && (
+                  <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white ring-2 ring-black shadow-sm">
+                    {notReadMessagesCount}
+                  </span>
                 )}
-                <li>
-                  <Link
-                    className={cx("item", "icon", {
-                      active: location.pathname === "/chat",
-                    })}
-                    to="/chat"
-                    onClick={handleLinkClick}
-                  >
-                    <FontAwesomeIcon
-                      className={cx("user-icon")}
-                      icon={faMessage}
-                    />
-                  </Link>
-                  {notReadMessagesCount > 0 && (
-                    <span className={cx("not-read-counter")}>
-                      <NumberDisplay
-                        value={notReadMessagesCount}
-                      ></NumberDisplay>
-                    </span>
-                  )}
-                </li>
-                <li>
-                  <Link
-                    className={cx("item", "icon", {
-                      active: location.pathname === "/profile",
-                    })}
-                    to="/profile"
-                    onClick={handleLinkClick}
-                  >
-                    <FontAwesomeIcon
-                      className={cx("user-icon")}
-                      icon={faCircleUser}
-                    />
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className={cx("item", "icon", {
-                      active: location.pathname === "/logout",
-                    })}
-                    to="/logout"
-                  >
-                    <FontAwesomeIcon
-                      className={cx("user-icon")}
-                      icon={faRightFromBracket}
-                    />
-                  </Link>
-                </li>
-              </>
-            )}
-          </div>
-        </div>
-      </nav>
+              </Link>
+              
+              <Link to="/profile" onClick={handleLinkClick} className="w-9 h-9 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white transition-all">
+                <FontAwesomeIcon icon={faCircleUser} className="text-lg" />
+              </Link>
+
+              <Link to="/logout" onClick={handleLinkClick} className="w-9 h-9 flex items-center justify-center rounded-full bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 transition-all ml-2">
+                <FontAwesomeIcon icon={faRightFromBracket} />
+              </Link>
+            </div>
+          )}
+        </nav>
+      </div>
     </header>
   );
 };

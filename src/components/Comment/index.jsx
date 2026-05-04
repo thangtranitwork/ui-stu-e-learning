@@ -1,18 +1,16 @@
-import styles from "./Comment.module.scss";
-import classNames from "classnames/bind";
 import UserInfo from "../UserInfo";
-import TimeDisplay from "../../components/TimeDisplay";
+import TimeDisplay from "../TimeDisplay";
+
 export default function Comment({ comment }) {
-  const cx = classNames.bind(styles);
-  console.log(comment);
-  
   return (
-    <div className={cx("comment", "b-shadow")}>
-      <div>
-        <UserInfo className={cx("creator")} user={comment.creator} />
+    <div className="flex gap-3 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-white/10 transition-all">
+      <div className="flex-shrink-0">
+        <UserInfo user={comment.creator} />
       </div>
-      <p className={cx("content")}>{comment.content}</p>
-      <TimeDisplay className={cx("time")} time={comment.createdAt} />
+      <div className="flex-1 min-w-0">
+        <p className="text-sm text-slate-300 mb-1">{comment.content}</p>
+        <TimeDisplay className="text-xs text-slate-600" time={comment.createdAt} />
+      </div>
     </div>
   );
 }

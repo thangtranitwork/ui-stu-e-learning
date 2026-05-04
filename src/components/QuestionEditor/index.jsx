@@ -1,118 +1,53 @@
 import { useState, useEffect } from "react";
-import styles from "./QuestionEditor.module.scss";
-import classNames from "classnames/bind";
 import Button from "../Button";
 import Input from "../Input";
-import { toast } from "react-toastify"; // Thêm toast để thông báo lỗi
+import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus, faFloppyDisk, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 export default function QuestionEditor({ initialQuestion, onSaveQuestion }) {
-  const cx = classNames.bind(styles);
   const [question, setQuestion] = useState(initialQuestion);
+  useEffect(() => { setQuestion(initialQuestion); }, [initialQuestion]);
 
-  // Cập nhật lại câu hỏi nếu prop initialQuestion thay đổi
-  useEffect(() => {
-    setQuestion(initialQuestion);
-  }, [initialQuestion]);
-
-  // Thêm câu trả lời mới (tối đa 4)
   const addAnswer = () => {
-    if (question.answers.length < 4) {
-      setQuestion({
-        ...question,
-        answers: [...question.answers, { text: "", isCorrect: false }],
-      });
-    }
+    if (question.answers.length < 4) setQuestion({ ...question, answers: [...question.answers, { text: "", isCorrect: false }] });
   };
 
-  // Cập nhật câu trả lời
   const handleAnswerChange = (index, value) => {
-    const updatedAnswers = question.answers.map((answer, idx) =>
-      idx === index ? { ...answer, text: value } : answer
-    );
-    setQuestion({ ...question, answers: updatedAnswers });
+    setQuestion({ ...question, answers: question.answers.map((a, i) => i === index ? { ...a, text: value } : a) });
   };
 
-  // Cập nhật câu hỏi
-  const handleQuestionChange = (e) => {
-    setQuestion({ ...question, text: e.target.value });
-  };
-
-  // Xử lý xóa câu trả lời
   const handleDeleteAnswer = (index) => {
-    if (question.answers.length > 2) {
-      const updatedAnswers = question.answers.filter((_, idx) => idx !== index);
-      setQuestion({ ...question, answers: updatedAnswers });
-    } else {
-      toast.error("Câu hỏi phải có ít nhất 2 câu trả lời.");
-    }
+    if (question.answers.length > 2) setQuestion({ ...question, answers: question.answers.filter((_, i) => i !== index) });
+    else toast.error("Ít nhất 2 câu trả lời.");
   };
 
-  // Xử lý lưu câu hỏi sau khi chỉnh sửa
   const handleSaveQuestion = () => {
-    if (!question.text.trim()) {
-      toast.error("Câu hỏi không được để trống.");
-      return;
-    }
-
-    const emptyAnswers = question.answers.filter(
-      (answer) => !answer.text.trim()
-    );
-
-    if (emptyAnswers.length > 0) {
-      toast.error("Câu trả lời không được để trống.");
-      return;
-    }
-
-    if (!question.answers.some((answer) => answer.isCorrect)) {
-      toast.error("Vui lòng có ít nhất một câu trả lời đúng.");
-      return;
-    }
-
-    onSaveQuestion(question); // Trả lại câu hỏi đã chỉnh sửa cho component cha
+    if (!question.text.trim()) { toast.error("Câu hỏi trống."); return; }
+    if (question.answers.some(a => !a.text.trim())) { toast.error("Câu trả lời trống."); return; }
+    if (!question.answers.some(a => a.isCorrect)) { toast.error("Cần ít nhất 1 đáp án đúng."); return; }
+    onSaveQuestion(question);
   };
 
   return (
-    <div className={cx("question-editor")}>
-      <h3>Chỉnh sửa câu hỏi</h3>
-      <Input
-        type="text"
-        placeholder="Câu hỏi"
-        value={question.text}
-        onChange={handleQuestionChange}
-      />
-      <h4>Câu trả lời (Câu đầu tiên là câu đúng)</h4>
-      {question.answers.map((answer, index) => (
-        <div key={index} className={cx("answer-row")}>
-          <Input
-            type="text"
-            placeholder={`Câu trả lời ${index + 1}`}
-            value={answer.text}
-            otherClass={cx(index === 0 ? "correct-answer" : "incorrect-answer")}
-            onChange={(e) => handleAnswerChange(index, e.target.value)}
-          />
-          {index > 0 && (
-            <Button
-              className={cx("delete-button")}
-              onClick={() => handleDeleteAnswer(index)}
-              leftIcon={<FontAwesomeIcon icon={faTrashCan}/>}
-            >
-              Xóa
-            </Button>
-          )}
-        </div>
-      ))}
-
-      {question.answers.length < 4 && (
-        <Button className={cx("button")} outline onClick={addAnswer} rightIcon={<FontAwesomeIcon icon={faCirclePlus}/>}>
-          Thêm câu trả lời
-        </Button>
-      )}
-
-      <Button className={cx("button")} outline onClick={handleSaveQuestion} rightIcon={<FontAwesomeIcon icon={faFloppyDisk}/>}>
-        Lưu câu hỏi
-      </Button>
+    <div className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
+      <h3 className="text-lg font-bold text-white">Chỉnh sửa câu hỏi</h3>
+      <Input type="text" placeholder="Câu hỏi" value={question.text} onChange={(e) => setQuestion({ ...question, text: e.target.value })} />
+      <p className="text-xs text-slate-500">Câu đầu tiên là đáp án đúng</p>
+      <div className="space-y-3">
+        {question.answers.map((answer, index) => (
+          <div key={index} className="flex items-center gap-3">
+            <div className={`flex-1 rounded-xl border ${index === 0 ? "border-emerald-500/30 bg-emerald-500/5" : "border-white/10"}`}>
+              <Input type="text" placeholder={`Câu trả lời ${index + 1}`} value={answer.text} onChange={(e) => handleAnswerChange(index, e.target.value)} />
+            </div>
+            {index > 0 && <Button danger small onClick={() => handleDeleteAnswer(index)} leftIcon={<FontAwesomeIcon icon={faTrashCan} />}>Xóa</Button>}
+          </div>
+        ))}
+      </div>
+      <div className="flex gap-3">
+        {question.answers.length < 4 && <Button outline small onClick={addAnswer} rightIcon={<FontAwesomeIcon icon={faCirclePlus} />}>Thêm</Button>}
+        <Button primary small onClick={handleSaveQuestion} rightIcon={<FontAwesomeIcon icon={faFloppyDisk} />}>Lưu</Button>
+      </div>
     </div>
   );
 }

@@ -1,70 +1,96 @@
-# Getting Started with Create React App
+# 🎓 STU E-Learning Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<!-- ![STU E-Learning Banner](elearning_platform_banner_1777906032591.png) -->
 
-## Available Scripts
+## 🌟 Overview
 
-In the project directory, you can run:
+**STU E-Learning** is a modern, comprehensive educational platform designed to provide a seamless learning experience for students and an efficient management system for instructors. Built with a focus on interactivity and performance, it features real-time communication, structured course management, and advanced assessment tools.
 
-### `npm start`
+## ✨ Key Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 📚 Course Management
+- **Course Discovery**: Browse and enroll in a wide variety of courses.
+- **Detailed Curriculum**: Structured lessons with rich text content and media.
+- **Progress Tracking**: Keep track of your learning journey across all courses.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 📝 Assessment & Quizzes
+- **Dynamic Quizzes**: Interactive quiz system with multiple question types.
+- **Quiz Creation**: Tools for instructors to design comprehensive assessments.
+- **Real-time Feedback**: Instant results and reviews for quizzes.
 
-### `npm test`
+### 💬 Social & Interaction
+- **Real-time Chat**: Connect with peers and instructors via WebSocket-powered messaging.
+- **Community Posts**: Share knowledge, ask questions, and interact with the student community.
+- **Friend System**: Manage connections and build your learning network.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 🔐 Security & Administration
+- **Secure Authentication**: Robust login/register system with JWT and email verification.
+- **Admin Dashboard**: Comprehensive management tools for platform administrators.
+- **Profile Customization**: Detailed user profiles and preference management.
 
-### `npm run build`
+## 🛠 Tech Stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Frontend**: [React.js 18](https://reactjs.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/), [SCSS](https://sass-lang.com/), [Bootstrap 5](https://getbootstrap.com/)
+- **Icons**: [FontAwesome](https://fontawesome.com/)
+- **Real-time**: [STOMP over SockJS](https://stomp-js.github.io/stomp-websocket/)
+- **Text Editor**: [Quill](https://quilljs.com/)
+- **State Management**: React Hooks & Context API
+- **Data Handling**: [XLSX](https://github.com/SheetJS/sheetjs) for Excel export/import
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🚀 Getting Started
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Prerequisites
 
-### `npm run eject`
+- Node.js (v16.x or higher)
+- npm or yarn
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Installation
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   cd ui-stu-e-learning
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+3. **Configure Environment**:
+   Create a `.env` file in the root directory and add your API endpoints:
+   ```env
+   REACT_APP_API_URL=your_api_endpoint
+   ```
 
-## Learn More
+4. **Run the application**:
+   ```bash
+   npm start
+   ```
+   Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 📁 Project Structure
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```text
+src/
+├── assets/             # Images, fonts, and static files
+├── components/         # Reusable UI components (Buttons, Inputs, etc.)
+├── constant/           # App constants and configuration
+├── GlobalStyles/       # Global CSS and SCSS definitions
+├── pages/              # Main page views and route components
+├── routes/             # Route definitions and navigation logic
+├── App.jsx             # Main Application component
+└── index.js            # Application entry point
+```
 
-### Code Splitting
+## 🏗 Scripts
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- `npm start`: Runs the app in development mode.
+- `npm run build`: Builds the app for production.
+- `npm test`: Launches the test runner.
+- `npm run eject`: Ejects the build tool configuration (use with caution).
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Developed with ❤️ for the STU community.

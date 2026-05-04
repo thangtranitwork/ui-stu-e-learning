@@ -1,33 +1,22 @@
-import classNames from "classnames/bind";
-import styles from "./UploadFile.module.scss";
 import { useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 
 export default function UploadFile({ setFile, accept }) {
-  const cx = classNames.bind(styles);
   const fileRef = useRef();
-  const [selectedFile, setSelectedFile] = useState(null); // Dùng state để lưu file đã chọn
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileChange = () => {
     const file = fileRef.current.files[0];
     setFile(file);
-    setSelectedFile(file); 
+    setSelectedFile(file);
   };
 
   return (
-    <span className={cx("wrapper")}>
-      <input
-        type="file"
-        ref={fileRef}
-        id="file"
-        className={cx("input")}
-        onChange={handleFileChange}
-        accept={accept}
-      />
-      <label htmlFor="file" className={cx("label")}>
-        <FontAwesomeIcon className={cx("icon")} icon={faUpload} />
-        {/* Kiểm tra nếu có file đã chọn thì hiển thị tên, nếu chưa thì hiện "Tải lên" */}
+    <span className="inline-flex">
+      <input type="file" ref={fileRef} id="file" className="hidden" onChange={handleFileChange} accept={accept} />
+      <label htmlFor="file" className="inline-flex items-center gap-2 px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-sm text-slate-300 cursor-pointer hover:bg-white/10 hover:border-white/20 transition-all">
+        <FontAwesomeIcon icon={faUpload} className="text-indigo-400" />
         {selectedFile ? `Thay đổi: ${selectedFile.name}` : "Tải lên"}
       </label>
     </span>
